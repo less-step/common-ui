@@ -1,5 +1,4 @@
 import React from "react";
-import "../../../dist/index.css";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Button from "./button";
 import { APPNAME } from "../../consts";
@@ -22,7 +21,6 @@ describe("测试按钮组件", () => {
 		);
 		const element = screen.getByText("按钮");
 		const computedStyle = getComputedStyle(element);
-		console.log(computedStyle);
 		expect(element).toBeInTheDocument();
 		expect(element).toHaveClass(`${APPNAME}-btn-primary`);
 		expect(computedStyle.backgroundColor).toBe("#219673");
