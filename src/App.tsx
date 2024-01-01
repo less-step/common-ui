@@ -49,13 +49,13 @@ function App() {
 					</Button>
 					<hr />
 					<Button danger btnType="primary" disabled>
-						Button
+						禁用
 					</Button>
 					<Button size="sm" danger btnType="primary" disabled>
-						Button
+						禁用
 					</Button>
 					<Button size="lg" danger btnType="primary" disabled>
-						Button
+						禁用
 					</Button>
 					<hr />
 					<Button

@@ -76,6 +76,8 @@
 			opacity: $btn-disabled-opacity;
 			user-select: none;
 			pointer-events: none;
+			background-color: $gray-300 !important;
+			color: $gray-800 !important;
 		}
 	}
 }
