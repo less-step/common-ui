@@ -130,6 +130,8 @@ p {
 // 3. Add explicit cursor to indicate changed behavior.
 // 4. Prevent the text-decoration to be skipped.
 
+//header&content
+
 abbr[title],
 abbr[data-original-title] {
   // 1
@@ -432,6 +434,28 @@ input[type="month"] {
 
 // 1. Remove the default vertical scrollbar in IE.
 // 2. Textareas should really only resize vertically so they don't break their (horizontal) containers.
+
+/* 滚动条整体样式 */
+::-webkit-scrollbar {
+  width: 12px; /* 滚动条宽度 */
+}
+
+/* 滚动条轨道样式 */
+::-webkit-scrollbar-track {
+  background-color: $scrollbar-track-background-color; /* 轨道背景颜色 */
+  border-radius: $scrollbar-track-border-radius; /* 滑块圆角 */
+}
+
+/* 滚动条滑块样式 */
+::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-thumb-background-color; /* 滑块颜色 */
+  border-radius: $scrollbar-thumb-border-radius; /* 滑块圆角 */
+}
+
+/* 鼠标悬停在滑块上的样式 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: $scrollbar-thumb-hover-background-color;
+}
 
 textarea {
   overflow: auto; // 1
