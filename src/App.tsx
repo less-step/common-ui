@@ -3,70 +3,82 @@ import "./styles/index.scss";
 import Layout from "./components/Layout/layout";
 import Header from "./components/Layout/header";
 import Content from "./components/Layout/content";
+import Button from "./components/Button/button";
 function App() {
-  return (
-    <div className="App">
-      <hr />
-      <h1>hello world</h1>
-      <h2>hello world</h2>
-      <h3>hello world</h3>
-      <h4>hello world</h4>
-      <h5>hello world</h5>
-      <h6>hello world</h6>
-      <p>google</p>
-      <ul>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>
-          <ol>
-            <li>2</li>
-            <li>2</li>
-            <li>2</li>
-            <li>2</li>
-            <li>2</li>
-            <li>2</li>
-          </ol>
-        </li>
-      </ul>
-      <div style={{ height: "300px" }}>
-        <Layout>
-          <Header>123</Header>
-          <Content>
-            <div style={{ overflow: "auto" }}>
-              <hr />
-              <h1>hello world</h1>
-              <h2>hello world</h2>
-              <h3>hello world</h3>
-              <h4>hello world</h4>
-              <h5>hello world</h5>
-              <h6>hello world</h6>
-              <p>google</p>
-              <ul>
-                <li>1</li>
-                <li>1</li>
-                <li>1</li>
-                <li>1</li>
-                <li>1</li>
-                <li>
-                  <ol>
-                    <li>2</li>
-                    <li>2</li>
-                    <li>2</li>
-                    <li>2</li>
-                    <li>2</li>
-                    <li>2</li>
-                  </ol>
-                </li>
-              </ul>
-            </div>
-          </Content>
-        </Layout>
-      </div>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Layout>
+				<Header>Button</Header>
+				<Content>
+					<Button>Button</Button>
+					<Button size="sm">Button</Button>
+					<Button size="lg">Button</Button>
+					<hr />
+					<Button btnType="primary">Button</Button>
+					<Button btnType="primary" size="sm">
+						Button
+					</Button>
+					<Button btnType="primary" size="lg">
+						Button
+					</Button>
+					<hr />
+					<Button disabled>Button</Button>
+					<Button size="sm" disabled>
+						Button
+					</Button>
+					<Button size="lg" disabled>
+						Button
+					</Button>
+					<hr />
+					<Button danger>Button</Button>
+					<Button size="sm" danger>
+						Button
+					</Button>
+					<Button size="lg" danger>
+						Button
+					</Button>
+					<hr />
+					<Button danger btnType="primary">
+						Button
+					</Button>
+					<Button size="sm" danger btnType="primary">
+						Button
+					</Button>
+					<Button size="lg" danger btnType="primary">
+						Button
+					</Button>
+					<hr />
+					<Button danger btnType="primary" disabled>
+						Button
+					</Button>
+					<Button size="sm" danger btnType="primary" disabled>
+						Button
+					</Button>
+					<Button size="lg" danger btnType="primary" disabled>
+						Button
+					</Button>
+					<hr />
+					<Button
+						btnType="link"
+						danger
+						size="lg"
+						onClick={(e) => {
+							console.log("Button");
+						}}
+						href="http://www.baidu.com"
+					>
+						Button
+					</Button>
+					<Button btnType="link" danger size="mid" disabled>
+						Button
+					</Button>
+					<Button btnType="link" danger size="sm">
+						Button
+					</Button>
+				</Content>
+			</Layout>
+		</div>
+	);
 }
 
 export default App;
