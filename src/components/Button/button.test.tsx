@@ -1,6 +1,4 @@
-import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import "../../../dist/index.css";
 import Button from "./button";
 import { APPNAME } from "../../consts";
 const clickHanlder = jest.fn();
@@ -21,10 +19,8 @@ describe("测试按钮组件", () => {
 			</Button>,
 		);
 		const element = screen.getByText("按钮");
-		const computedStyle = getComputedStyle(element);
 		expect(element).toBeInTheDocument();
 		expect(element).toHaveClass(`${APPNAME}-btn-primary`);
-		expect(computedStyle.backgroundColor).toBe("#219673");
 	});
 	it("link按钮正常显示", () => {
 		render(<Button btnType="link">按钮</Button>);

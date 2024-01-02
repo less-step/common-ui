@@ -1,0 +1,44 @@
+.#{$app-name} {
+	&-menu {
+		margin: 0;
+		padding: 0;
+		display: flex;
+		list-style: none;
+		font-size: $font-size-base;
+		overflow: auto;
+		box-shadow: $menu-box-shadow;
+		&-horizontal {
+			flex-direction: row;
+			& > .#{$app-name}-menu-item {
+				margin: 0 $menu-item-margin;
+				&-active,
+				&:hover {
+					border-bottom-color: $primary;
+				}
+				&:hover {
+					background-color: lighten($primary, 42%);
+				}
+			}
+		}
+		&-vertical {
+			flex-direction: column;
+			& > .#{$app-name}-menu-item {
+				margin: $menu-item-margin 0;
+				&-active,
+				&:hover {
+					border-left-color: $primary;
+				}
+				&:hover {
+					background-color: lighten($primary, 42%);
+				}
+			}
+		}
+	}
+	&-menu-item {
+		padding: $menu-item-padding-y $menu-item-padding-x;
+		border-left: $menu-item-border-width solid transparent;
+		border-bottom: $menu-item-border-width solid transparent;
+		cursor: pointer;
+		word-break: keep-all;
+	}
+}

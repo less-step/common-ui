@@ -16,10 +16,11 @@ interface IButtonBaseProps {
 type IButtonProps = Partial<IButtonBaseProps & ButtonHTMLAttributes<HTMLElement>>;
 const displayName = "Button";
 const classNamePrefix = "btn";
+const baseClassName = classNamePrefix;
 const Button: React.FC<IButtonProps> = (props) => {
 	const { btnType, disabled, size, className, children, danger, href, ...restProps } = props;
 	const originalClassNames = useMemo(() => {
-		return cls(classNamePrefix, className, {
+		return cls(baseClassName, className, {
 			[`${classNamePrefix}-${btnType}`]: btnType,
 			[`${classNamePrefix}-danger`]: danger,
 			[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,

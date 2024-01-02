@@ -4,6 +4,7 @@ import Layout from "./components/Layout/layout";
 import Header from "./components/Layout/header";
 import Content from "./components/Layout/content";
 import Button from "./components/Button/button";
+import Menu from "./components/Menu/menu";
 function App() {
 	return (
 		<div className="App">
@@ -75,6 +76,25 @@ function App() {
 					<Button btnType="link" danger size="sm">
 						Button
 					</Button>
+					<hr />
+					<Menu defaultActiveKey="0" mode="horizontal">
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+					</Menu>
+					<Menu defaultActiveKey="0" mode="vertical">
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+					</Menu>
 				</Content>
 			</Layout>
 		</div>

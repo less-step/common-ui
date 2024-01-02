@@ -87,6 +87,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "identity-obj-proxy": "^3.0.0",
     "sass": "^1.69.6"
   },
