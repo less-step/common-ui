@@ -1,5 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
+import "../../../dist/index.css";
 import Button from "./button";
 import { APPNAME } from "../../consts";
 const clickHanlder = jest.fn();
