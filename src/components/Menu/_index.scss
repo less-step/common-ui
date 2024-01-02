@@ -9,7 +9,7 @@
 		box-shadow: $menu-box-shadow;
 		&-horizontal {
 			flex-direction: row;
-			& > .#{$app-name}-menu-item {
+			& .#{$app-name}-menu-item {
 				margin: 0 $menu-item-margin;
 				&-active,
 				&:hover {
@@ -19,11 +19,25 @@
 					background-color: lighten($primary, 42%);
 				}
 			}
+			& .#{$app-name}-sub-menu {
+				& .#{$app-name}-sub-menu-title {
+					color: pink;
+					&:hover {
+						background-color: lighten($primary, 42%);
+					}
+				}
+				& .#{$app-name}-sub-menu-content {
+					color: $primary;
+					list-style: none;
+					position: absolute;
+					left: 0;
+					top: 100%;
+				}
+			}
 		}
 		&-vertical {
 			flex-direction: column;
-			& > .#{$app-name}-menu-item {
-				margin: $menu-item-margin 0;
+			& .#{$app-name}-menu-item {
 				&-active,
 				&:hover {
 					border-left-color: $primary;
@@ -32,13 +46,28 @@
 					background-color: lighten($primary, 42%);
 				}
 			}
+			& .#{$app-name}-sub-menu {
+				& .#{$app-name}-sub-menu-title {
+					&:hover {
+						background-color: lighten($primary, 42%);
+					}
+				}
+				& .#{$app-name}-sub-menu-content {
+					list-style: none;
+					padding-left: 1rem;
+				}
+			}
 		}
 	}
-	&-menu-item {
+	&-menu-item,
+	&-sub-menu-title {
 		padding: $menu-item-padding-y $menu-item-padding-x;
 		border-left: $menu-item-border-width solid transparent;
 		border-bottom: $menu-item-border-width solid transparent;
 		cursor: pointer;
 		word-break: keep-all;
+	}
+	&-sub-menu-title {
+		position: relative;
 	}
 }

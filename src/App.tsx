@@ -5,6 +5,7 @@ import Header from "./components/Layout/header";
 import Content from "./components/Layout/content";
 import Button from "./components/Button/button";
 import Menu from "./components/Menu/menu";
+import SubMenu from "./components/Menu/subMenu";
 function App() {
 	return (
 		<div className="App">
@@ -94,6 +95,15 @@ function App() {
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
+						<SubMenu title="测试章节">
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+						</SubMenu>
 					</Menu>
 				</Content>
 			</Layout>
