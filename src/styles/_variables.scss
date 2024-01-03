@@ -44,6 +44,17 @@ $warning: $yellow !default;
 $light: $gray-100 !default;
 $dark: $gray-800 !default;
 
+$theme: (
+	primary: $primary,
+	secondary: $secondary,
+	success: $success,
+	info: $info,
+	danger: $danger,
+	warning: $warning,
+	light: $light,
+	dark: $dark,
+);
+
 // 通用缩放比
 $scale-sm: 0.875 !default;
 $scale-lg: 1.25 !default;
@@ -224,6 +235,7 @@ $menu-item-active-color: $primary !default;
 $menu-item-active-border-width: 2px !default;
 $menu-item-disabled-color: $gray-600 !default;
 $menu-item-margin: 8px;
+$menu-item-border-radius: $border-radius;
 //sub-menu
 //submenu
 $submenu-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);

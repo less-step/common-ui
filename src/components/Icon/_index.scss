@@ -1,0 +1,11 @@
+.#{$app-name} {
+	&-icon {
+		user-select: none;
+		cursor: pointer;
+	}
+	@each $key, $value in $theme {
+		&-icon-#{$key} {
+			color: $value;
+		}
+	}
+}

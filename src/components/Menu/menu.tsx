@@ -32,14 +32,14 @@ const MenuAcceptedChildTypes = [MenuItem.displayName, SubMenu.displayName];
 const Menu: React.FC<IMenuProps> & { Item: FunctionComponent<IMenuItemProps> } = (props) => {
 	const { children, defaultActiveKey, className, mode, onSelect, ...restProps } = props;
 	const [activeKey, setActiveKey] = useState(defaultActiveKey);
-	const originalClassNames = cls(className, baseClassName, {
+	const originalClassNames = cls(baseClassName, {
 		[`${classNamePrefix}-${mode}`]: mode,
 	});
 	const onSelectHandler = (selectedKey: string) => {
 		setActiveKey(selectedKey);
 		onSelect?.(selectedKey);
 	};
-	const classNames = useClassNames(originalClassNames);
+	const classNames = cls(useClassNames(originalClassNames), className);
 	return (
 		<MenuContext.Provider value={{ activeKey, onSelectHandler, mode: mode as string }}>
 			<ul className={classNames} {...restProps}>

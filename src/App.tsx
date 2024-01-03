@@ -6,11 +6,14 @@ import Content from "./components/Layout/content";
 import Button from "./components/Button/button";
 import Menu from "./components/Menu/menu";
 import SubMenu from "./components/Menu/subMenu";
+import Icon from "./components/Icon/icon";
 function App() {
 	return (
 		<div className="App">
 			<Layout>
-				<Header>Button</Header>
+				<Header>
+					<Icon icon="coffee" theme="dark" />
+				</Header>
 				<Content>
 					<Button>Button</Button>
 					<Button size="sm">Button</Button>
@@ -78,8 +81,8 @@ function App() {
 						Button
 					</Button>
 					<hr />
-					<Menu defaultActiveKey="0" mode="horizontal">
-						<Menu.Item>第一章节</Menu.Item>
+					<Menu mode="horizontal">
+						<Menu.Item disabled>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
@@ -104,7 +107,7 @@ function App() {
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
-						<SubMenu title="测试章节">
+						<SubMenu title="测试章节" defaultExpanded>
 							<Menu.Item>第二章节</Menu.Item>
 							<Menu.Item>第二章节</Menu.Item>
 							<Menu.Item>第二章节</Menu.Item>

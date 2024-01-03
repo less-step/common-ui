@@ -33,7 +33,10 @@
 				left: 0;
 				top: 100%;
 				padding: 12px;
+				margin-top: 12px;
 				list-style: none;
+				z-index: 9;
+				background-color: $background-color-base;
 				box-shadow: $submenu-box-shadow;
 				& > li {
 					text-align: center;
@@ -57,6 +60,9 @@
 		}
 		& .#{$app-name}-submenu {
 			& .#{$app-name}-submenu-title {
+				&-toggler {
+					transition: none;
+				}
 				&:hover {
 					background-color: lighten($primary, 42%);
 				}
@@ -68,11 +74,32 @@
 	}
 	&-menu-item,
 	&-submenu-title {
+		border-radius: $menu-item-border-radius;
 		padding: $menu-item-padding-y $menu-item-padding-x;
 		border-left: $menu-item-border-width solid transparent;
 		border-bottom: $menu-item-border-width solid transparent;
 		cursor: pointer;
 		word-break: keep-all;
+	}
+	&-menu-item {
+		&.disabled,
+		&:disabled {
+			opacity: 0.65;
+			user-select: none;
+			pointer-events: none;
+			background-color: #dee2e6 !important;
+			color: #343a40 !important;
+		}
+	}
+	&-submenu-title {
+		&-toggler {
+			transition: transform 0.3s;
+			transform-origin: center;
+			padding: 0 1rem;
+			&.reverse {
+				transform: rotate(180deg);
+			}
+		}
 	}
 	&-submenu {
 		position: relative;
@@ -80,9 +107,6 @@
 			.#{$app-name}-submenu-title {
 				color: $primary !important;
 			}
-		}
-		&-content-closed {
-			display: none;
 		}
 	}
 }

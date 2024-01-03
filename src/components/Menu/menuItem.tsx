@@ -16,12 +16,12 @@ const MenuItem: React.FC<IMenuItemProps> = (props) => {
 	const { disabled, itemKey, className, children, ...restProps } = props;
 	const { activeKey, onSelectHandler } = useContext(MenuContext);
 	const originClassNames = useMemo(() => {
-		return cls(baseClassName, className, {
+		return cls(baseClassName, {
 			disabled,
 			[`${classNamePrefix}-active`]: activeKey === itemKey,
 		});
-	}, [activeKey, className, disabled, itemKey]);
-	const classNames = useClassNames(originClassNames);
+	}, [activeKey, disabled, itemKey]);
+	const classNames = cls(useClassNames(originClassNames), className);
 	const onClickHandler = () => {
 		onSelectHandler(itemKey as string);
 	};

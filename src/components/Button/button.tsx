@@ -20,14 +20,14 @@ const baseClassName = classNamePrefix;
 const Button: React.FC<IButtonProps> = (props) => {
 	const { btnType, disabled, size, className, children, danger, href, ...restProps } = props;
 	const originalClassNames = useMemo(() => {
-		return cls(baseClassName, className, {
+		return cls(baseClassName, {
 			[`${classNamePrefix}-${btnType}`]: btnType,
 			[`${classNamePrefix}-danger`]: danger,
 			[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,
 			disabled,
 		});
-	}, [btnType, size, className, disabled, danger]);
-	const classNames = cls(useClassNames(originalClassNames));
+	}, [btnType, size, disabled, danger]);
+	const classNames = cls(useClassNames(originalClassNames), className);
 
 	if (btnType === "link") {
 		return (
