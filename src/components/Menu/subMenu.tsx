@@ -14,7 +14,7 @@ import { MenuContext } from "./menu";
 import MenuItem, { IMenuItemProps } from "./menuItem";
 import { useClassNames } from "../../hooks";
 const displayName = "SubMenu";
-const classNamePrefix = "sub-menu";
+const classNamePrefix = "submenu";
 const baseClassName = classNamePrefix;
 
 export interface ISubMenuProps {
@@ -31,10 +31,12 @@ const SubMenu: React.FC<ISubMenuProps> = (props) => {
 	const { itemKey, children, className, title, disabled, defaultExpanded, ...restProps } = props;
 	const [expanded, setExpanded] = useState(defaultExpanded);
 	const subMenuRef = useRef<HTMLLIElement>(null);
-	const { mode } = useContext(MenuContext);
+	const { mode, activeKey } = useContext(MenuContext);
+	const isSubMenuActive = activeKey?.indexOf(itemKey as string) === 0;
 	const originClassNames = cls(baseClassName, className, {
 		disabled,
 		[`${classNamePrefix}-${mode}`]: mode,
+		[`${classNamePrefix}-active`]: isSubMenuActive,
 	});
 	const classNames = useClassNames(originClassNames);
 	const titleClassNames = useClassNames(cls(`${classNamePrefix}-title`));
@@ -43,45 +45,32 @@ const SubMenu: React.FC<ISubMenuProps> = (props) => {
 			[`${classNamePrefix}-content-closed`]: !expanded,
 		}),
 	);
-	const onMouseOverHandler = useCallback(() => {
-		if (mode === "horizontal") {
-			setExpanded(true);
-		}
-	}, [mode]);
+
 	const onClickHandler = useCallback(() => {
 		if (mode === "vertical") {
 			setExpanded(!expanded);
 		}
 	}, [mode, expanded]);
 
-	useEffect(() => {
-		function onMouseEnterHandler() {
-			setExpanded(true);
-			console.log("in");
-		}
-		function onMouseLeaveHandler() {
-			setExpanded(false);
-			console.log("out");
-		}
-		subMenuRef.current?.addEventListener("mouseenter", onMouseEnterHandler);
-		subMenuRef.current?.addEventListener("mouseleave", onMouseLeaveHandler);
-		const subMenu = subMenuRef.current;
-		return () => {
-			subMenu?.removeEventListener("mouseenter", onMouseEnterHandler);
-			subMenu?.removeEventListener("mouseleave", onMouseLeaveHandler);
-		};
-	}, []);
+	const onMouseEnterHandler = () => {
+		if (mode === "horizontal") setExpanded(true);
+	};
 
+	const onMouseLeaveHandler = () => {
+		if (mode === "horizontal") setExpanded(false);
+	};
 	return (
 		<li
 			className={classNames}
 			key={itemKey}
 			ref={subMenuRef}
+			onMouseEnter={onMouseEnterHandler}
+			onMouseLeave={onMouseLeaveHandler}
 			{...restProps}
-			onClick={onClickHandler}
-			onMouseOver={onMouseOverHandler}
 		>
-			<p className={titleClassNames}>{title}</p>
+			<p className={titleClassNames} onClick={onClickHandler}>
+				{title}
+			</p>
 			<ul className={contentClassNames}>
 				{React.Children.map(children, (child, index) => {
 					const childElement = child as FunctionComponentElement<IMenuItemProps>;

@@ -86,6 +86,15 @@ function App() {
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
 						<Menu.Item>第一章节</Menu.Item>
+						<SubMenu title="测试章节">
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+							<Menu.Item>第二章节</Menu.Item>
+						</SubMenu>
 					</Menu>
 					<Menu defaultActiveKey="0" mode="vertical">
 						<Menu.Item>第一章节</Menu.Item>
@@ -104,6 +113,9 @@ function App() {
 							<Menu.Item>第二章节</Menu.Item>
 							<Menu.Item>第二章节</Menu.Item>
 						</SubMenu>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
+						<Menu.Item>第一章节</Menu.Item>
 					</Menu>
 				</Content>
 			</Layout>
