@@ -77,11 +77,11 @@ $font-family-base: $font-family-sans-serif !default;
 
 // 字体大小
 $font-size-mid: 1rem !default;
-$font-size-lg: calc($font-size-mid * $scale-lg) !default;
-$font-size-sm: calc($font-size-mid * $scale-sm) !default;
+$font-size-lg: $font-size-mid * $scale-lg !default;
+$font-size-sm: $font-size-mid * $scale-sm !default;
 $font-size-noraml: $font-size-mid !default;
 $font-size-base: $font-size-noraml !default;
-$text-indent: calc($font-size-base * 2) !default;
+$text-indent: $font-size-base * 2 !default;
 
 // 字重
 $font-weight-lighter: lighter !default;
@@ -92,9 +92,9 @@ $font-weight-bolder: bolder !default;
 $font-weight-base: $font-weight-normal !default;
 
 // 行高
-$line-height-mid: calc($font-size-mid * $scale-line-height) !default;
-$line-height-lg: calc($font-size-lg * $scale-line-height) !default;
-$line-height-sm: calc($font-size-sm * $scale-line-height) !default;
+$line-height-mid: $font-size-mid * $scale-line-height !default;
+$line-height-lg: $font-size-lg * $scale-line-height !default;
+$line-height-sm: $font-size-sm * $scale-line-height !default;
 $line-height-base: $line-height-mid !default;
 
 // 标题字体大小
@@ -156,7 +156,7 @@ $list-inline-padding: 0.5rem !default;
 
 $mark-bg: #fcf8e3 !default;
 
-$hr-margin-y: calc(0.5 * $font-size-base) !default;
+$hr-margin-y: 0.5 * $font-size-base !default;
 
 // Code
 
@@ -192,12 +192,12 @@ $btn-font-size: $font-size-base !default;
 $btn-line-height: 1 !default;
 
 //不同大小按钮的 padding 和 font size
-$btn-padding-y-sm: calc($btn-padding-y * $scale-sm) !default;
-$btn-padding-x-sm: calc($btn-padding-x * $scale-sm) !default;
+$btn-padding-y-sm: $btn-padding-y * $scale-sm !default;
+$btn-padding-x-sm: $btn-padding-x * $scale-sm !default;
 $btn-font-size-sm: $font-size-sm !default;
 
-$btn-padding-y-lg: calc($btn-padding-y * $scale-lg) !default;
-$btn-padding-x-lg: calc($btn-padding-x * $scale-lg) !default;
+$btn-padding-y-lg: $btn-padding-y * $scale-lg !default;
+$btn-padding-x-lg: $btn-padding-x * $scale-lg !default;
 $btn-font-size-lg: $font-size-lg !default;
 
 // 按钮边框

@@ -7,6 +7,8 @@ interface ITransitionProps {
 	type: TransitionType;
 	timeout: number;
 }
+const displayName = "Transition";
+
 const Transition: React.FC<ITransitionProps> = (props) => {
 	const { visible, children, type, timeout } = props;
 	return (
@@ -16,4 +18,8 @@ const Transition: React.FC<ITransitionProps> = (props) => {
 	);
 };
 
+Transition.displayName = displayName;
+Transition.defaultProps = {
+	type: "zoom-in-top",
+};
 export default Transition;

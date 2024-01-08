@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, CSSProperties, ReactNode, useMemo } from "react";
+import React, { ButtonHTMLAttributes, CSSProperties, ReactNode, useMemo } from "react";
 import { SIZE, DEFAULT_SIZE } from "../../consts";
 import { useClassNames } from "../../hooks";
 import cls from "classnames";

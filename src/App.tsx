@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/index.scss";
 import Layout from "./components/Layout/layout";
 import Header from "./components/Layout/header";
@@ -7,7 +7,9 @@ import Button from "./components/Button/button";
 import Menu from "./components/Menu/menu";
 import SubMenu from "./components/Menu/subMenu";
 import Icon from "./components/Icon/icon";
+import Transition from "./components/Transition/transition";
 function App() {
+	const [visible, setVisible] = useState(false);
 	return (
 		<div className="App">
 			<Layout>
@@ -122,6 +124,10 @@ function App() {
 					</Menu>
 				</Content>
 			</Layout>
+			<Button onClick={() => setVisible(!visible)}>测试姜叔叔</Button>
+			<Transition visible={visible} type={"zoom-in-top"} timeout={300}>
+				<Button>姜叔叔</Button>
+			</Transition>
 		</div>
 	);
 }
