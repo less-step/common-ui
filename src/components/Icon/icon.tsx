@@ -8,7 +8,7 @@ library.add(fas);
 type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
 interface IIconBaseProps {
 	className?: string;
-	styles?: CSSProperties;
+	style?: CSSProperties;
 	theme?: IconModeType;
 }
 export type IconPropsType = FontAwesomeIconProps & IIconBaseProps;

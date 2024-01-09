@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas,ArgsTable } from "@storybook/blocks";
+import Button from './button.tsx'
+
+<Meta title="Less-step Docs" />
+
+<ArgsTable of={Button}/>
+### Less-step组件库
+
+
+```js
+import Button from "less-step";
+```
+
+
+<Canvas>
+	<Story id="button--primary" />
+	<Story id="button--danger" />
+	<Story id="button--size-controller" />
+	<Story id="button--disabled" />
+	<Story id="button--linked" />
+</Canvas>

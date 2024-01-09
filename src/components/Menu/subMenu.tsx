@@ -22,13 +22,13 @@ export interface ISubMenuProps {
 	itemKey?: string;
 	children?: ReactNode;
 	className?: string;
-	styles?: CSSProperties;
+	style?: CSSProperties;
 	title: string;
 	disabled?: boolean;
 	defaultExpanded?: boolean;
 }
 const SubMenuAcceptedChildTypes = [MenuItem.displayName];
-const SubMenu: React.FC<ISubMenuProps> = (props) => {
+export const SubMenu: React.FC<ISubMenuProps> = (props) => {
 	const { itemKey, children, className, title, disabled, defaultExpanded, ...restProps } = props;
 	const [expanded, setExpanded] = useState(defaultExpanded as boolean);
 	const subMenuRef = useRef<HTMLLIElement>(null);

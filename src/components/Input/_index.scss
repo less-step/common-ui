@@ -1,0 +1,58 @@
+.#{$app-name} {
+	&-input-group {
+		display: flex;
+		& :first-child {
+			border-top-left-radius: $input-border-radius;
+			border-bottom-left-radius: $input-border-radius;
+		}
+		& :last-child {
+			border-top-right-radius: $input-border-radius;
+			border-bottom-right-radius: $input-border-radius;
+		}
+	}
+	&-input {
+		width: auto !important;
+		height: auto !important;
+		border: $input-border-width solid $input-border-color;
+		padding: $input-padding-y $input-padding-x;
+		line-height: $line-height-mid;
+		font-size: $input-font-size;
+		font-family: $input-font-family;
+		&::placeholder {
+			color: $input-placeholder-color;
+		}
+		&-lg {
+			padding: $input-padding-y-lg $input-padding-x-lg;
+			font-size: $input-font-size-lg;
+			line-height: $line-height-lg;
+		}
+		&-sm {
+			padding: $input-padding-y-sm $input-padding-x-sm;
+			font-size: $input-font-size-sm;
+			line-height: $line-height-sm;
+		}
+	}
+	&-input-prepend,
+	&-input-append {
+		border: $input-border-width solid $input-group-addon-border-color;
+		background-color: $input-group-addon-bg;
+		color: $input-group-addon-color;
+		padding: $input-padding-y $input-padding-x;
+		font-size: $input-font-size;
+		font-family: $input-font-family;
+		line-height: $line-height-mid;
+		vertical-align: middle;
+		text-align: center;
+		user-select: none;
+		&-lg {
+			padding: $input-padding-y-lg $input-padding-x-lg;
+			font-size: $input-font-size-lg;
+			line-height: $line-height-lg;
+		}
+		&-sm {
+			padding: $input-padding-y-sm $input-padding-x-sm;
+			font-size: $input-font-size-sm;
+			line-height: $line-height-sm;
+		}
+	}
+}

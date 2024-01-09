@@ -338,11 +338,6 @@ button {
 //
 // Credit: https://github.com/suitcss/base/
 
-button:focus {
-	outline: 1px dotted;
-	outline: 5px auto -webkit-focus-ring-color;
-}
-
 // 1. Remove the margin in Firefox and Safari
 
 input,
@@ -406,6 +401,11 @@ button,
 
 button:focus {
 	outline: none;
+}
+
+input:focus {
+	outline: none;
+	border-color: $primary;
 }
 
 // Remove inner border and padding from Firefox, but don't restore the outline like Normalize.

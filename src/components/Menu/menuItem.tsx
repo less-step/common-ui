@@ -2,17 +2,18 @@ import { CSSProperties, ReactNode, useContext, useMemo } from "react";
 import cls from "classnames";
 import { MenuContext } from "./menu";
 import { useClassNames } from "../../hooks";
+import React from "react";
 export interface IMenuItemProps {
 	disabled?: boolean;
 	itemKey?: string; //item的标志位
 	className?: string;
-	styles?: CSSProperties;
+	style?: CSSProperties;
 	children?: ReactNode;
 }
 const displayName = "MenuItem";
 const classNamePrefix = "menu-item";
 const baseClassName = classNamePrefix;
-const MenuItem: React.FC<IMenuItemProps> = (props) => {
+export const MenuItem: React.FC<IMenuItemProps> = (props) => {
 	const { disabled, itemKey, className, children, ...restProps } = props;
 	const { activeKey, onSelectHandler } = useContext(MenuContext);
 	const originClassNames = useMemo(() => {

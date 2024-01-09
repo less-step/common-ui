@@ -1,2 +1,2 @@
-export type SIZE = "mid" | "sm" | "lg" | "xl" | "xs" | "xxl" | "xxs";
+export type SIZE = "mid" | "sm" | "lg";
 export const DEFAULT_SIZE = "mid";

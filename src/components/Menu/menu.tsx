@@ -3,13 +3,13 @@ import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import React from "react";
 import MenuItem, { IMenuItemProps } from "./menuItem";
-import SubMenu from "./subMenu";
+import SubMenu, { ISubMenuProps } from "./subMenu";
 type MenuMode = "vertical" | "horizontal";
 
 interface IMenuBaseProps {
 	children?: ReactNode;
 	className?: string;
-	styles?: CSSProperties;
+	style?: CSSProperties;
 	defaultActiveKey?: string;
 	mode?: MenuMode;
 	onSelect?: (selectedKey: string) => void;
@@ -29,8 +29,11 @@ export const MenuContext = React.createContext<{
 	mode: "horizontal",
 });
 const MenuAcceptedChildTypes = [MenuItem.displayName, SubMenu.displayName];
-const Menu: React.FC<IMenuProps> & { Item: FunctionComponent<IMenuItemProps> } = (props) => {
-	const { children, defaultActiveKey, className, mode, onSelect, ...restProps } = props;
+export const Menu: React.FC<IMenuProps> & {
+	Item: FunctionComponent<IMenuItemProps>;
+	SubMenu: FunctionComponent<ISubMenuProps>;
+} = (props) => {
+	const { children, defaultActiveKey, className, mode, onSelect, style, ...restProps } = props;
 	const [activeKey, setActiveKey] = useState(defaultActiveKey);
 	const originalClassNames = cls(baseClassName, {
 		[`${classNamePrefix}-${mode}`]: mode,
@@ -42,7 +45,7 @@ const Menu: React.FC<IMenuProps> & { Item: FunctionComponent<IMenuItemProps> } =
 	const classNames = cls(useClassNames(originalClassNames), className);
 	return (
 		<MenuContext.Provider value={{ activeKey, onSelectHandler, mode: mode as string }}>
-			<ul className={classNames} {...restProps}>
+			<ul className={classNames} style={style} {...restProps}>
 				{React.Children.map(children, (child, index) => {
 					const childElement = child as React.FunctionComponentElement<IMenuItemProps>;
 					if (MenuAcceptedChildTypes.includes(childElement?.type?.displayName)) {
@@ -63,4 +66,5 @@ Menu.defaultProps = {
 	mode: "horizontal",
 };
 Menu.Item = MenuItem;
+Menu.SubMenu = SubMenu;
 export default Menu;

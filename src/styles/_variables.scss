@@ -278,7 +278,7 @@ $input-focus-shadow-error-color: rgba($danger, 0.25) !default;
 $input-focus-box-shadow: 0 0 0 $input-focus-width $input-focus-shadow-color !default;
 $input-focus-box-shadow-error: 0 0 0 $input-focus-width $input-focus-shadow-error-color !default;
 
-$input-placeholder-color: $gray-600 !default;
+$input-placeholder-color: $gray-400 !default;
 $input-plaintext-color: $body-color !default;
 
 $input-height-border: $input-border-width * 2 !default;
@@ -288,7 +288,7 @@ $input-transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out !d
 $input-group-addon-color: $input-color !default;
 $input-group-addon-bg: $gray-200 !default;
 $input-group-addon-border-color: $input-border-color !default;
-
+$input-prepend-background-color: $gray-300;
 // Progress bars
 
 $progress-font-size: $font-size-base * 0.75 !default;
