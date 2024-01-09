@@ -405,7 +405,6 @@ button:focus {
 
 input:focus {
 	outline: none;
-	border-color: $primary;
 }
 
 // Remove inner border and padding from Firefox, but don't restore the outline like Normalize.

@@ -1,42 +1,51 @@
-import React, { InputHTMLAttributes, ReactNode } from "react";
+import React, { InputHTMLAttributes, ReactNode, useEffect, useRef, useState } from "react";
 import { DEFAULT_SIZE, SIZE } from "../../consts";
 import { MergeTypes } from "../../consts/types";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
-interface InputBaseProps {
+import Icon from "../Icon/icon";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import Transition from "../Transition/transition";
+export interface InputBaseProps {
 	disabled?: boolean;
 	readonly?: boolean;
-	icon?: string;
+	icon?: IconProp;
 	prepend?: string | ReactNode;
 	append?: string | ReactNode;
 	size?: SIZE;
 	placeholder?: string;
 }
 
-export type InputProps = Partial<MergeTypes<InputHTMLAttributes<HTMLElement>, InputBaseProps>>;
+type InputProps = Partial<MergeTypes<InputHTMLAttributes<HTMLElement>, InputBaseProps>>;
 
 const displayName = "Input";
 const classNamePrefix = "input";
 const baseClassName = classNamePrefix;
+const inputGroupBaseClassName = `${baseClassName}-group`;
 export const Input: React.FC<InputProps> = (props) => {
-	const { disabled, readonly, size, icon, prepend, append, className, placeholder, ...resetProps } = props;
-	const originalClassNames = cls(baseClassName, className, {
-		disabled,
-		readonly,
-		[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,
-	});
-	const classNames = useClassNames(originalClassNames);
-	const inputGroupClassNames = useClassNames(`${classNamePrefix}-group`);
-	const inputPrependClassNames = useClassNames(
-		cls(`${classNamePrefix}-prepend`, {
-			[`${classNamePrefix}-prepend-${size}`]: size !== DEFAULT_SIZE,
+	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, ...resetProps } = props;
+	const inputGroupClassNames = useClassNames(
+		cls(inputGroupBaseClassName, className, {
+			disabled,
+			readonly,
+			[`${inputGroupBaseClassName}-${size}`]: size !== DEFAULT_SIZE,
 		}),
+		className ? [className] : undefined,
 	);
+	const inputWrapperClassNames = useClassNames(`${classNamePrefix}-wrapper`);
+	const inputPrependClassNames = useClassNames(`${classNamePrefix}-prepend`);
 	const inputAppendClassNames = useClassNames(`${classNamePrefix}-append`);
+	const inputIconClassNames = useClassNames(`${classNamePrefix}-icon`);
+
 	return (
-		<span className={inputGroupClassNames}>
+		<span className={inputGroupClassNames} {...resetProps}>
 			{prepend && <span className={inputPrependClassNames}>{prepend}</span>}
-			<input type="text" className={classNames} {...resetProps} placeholder={placeholder} />
+
+			<span className={inputWrapperClassNames}>
+				{icon && <Icon icon={icon} className={inputIconClassNames} />}
+				<input type="text" placeholder={placeholder} />
+			</span>
+
 			{append && <span className={inputAppendClassNames}>{append}</span>}
 		</span>
 	);

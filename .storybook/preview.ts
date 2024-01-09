@@ -1,4 +1,7 @@
 import type { Preview } from "@storybook/react";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+library.add(fas);
 import "../src/styles/index.scss";
 const preview: Preview = {
 	parameters: {

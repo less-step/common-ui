@@ -5,6 +5,9 @@ const meta = {
 	component: Input,
 	tags: ["autodocs"],
 	argTypes: {
+		disabled: {
+			control: { type: "boolean" },
+		},
 		size: {
 			options: ["mid", "lg", "sm"],
 			control: { type: "radio" },
@@ -16,6 +19,9 @@ const meta = {
 			control: { type: "text" },
 		},
 		placeholder: {
+			control: { type: "text" },
+		},
+		icon: {
 			control: { type: "text" },
 		},
 	},

@@ -1,7 +1,8 @@
-import React, { ButtonHTMLAttributes, CSSProperties, ReactNode, useMemo } from "react";
+import React, { ButtonHTMLAttributes, CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { SIZE, DEFAULT_SIZE } from "../../consts";
 import { useClassNames } from "../../hooks";
 import cls from "classnames";
+import Transition from "../Transition/transition";
 type TBtnType = "link" | "primary" | "default";
 interface IButtonBaseProps {
 	/**按钮类型 */
@@ -44,6 +45,18 @@ export const Button: React.FC<IButtonProps> = (props) => {
 		});
 	}, [btnType, size, disabled, danger]);
 	const classNames = cls(useClassNames(originalClassNames), className);
+	const buttonRef = useRef<HTMLButtonElement>(null);
+	const [isShadowShow, setIsShadowShow] = useState(false);
+	const buttonShadowClassNames = useClassNames(`${classNamePrefix}-shadow`);
+	const buttonWrapperClassNames = useClassNames(`${classNamePrefix}-wrapper`);
+	useEffect(() => {
+		function toggleShadow() {
+			setIsShadowShow((isShadowShow) => {
+				return !isShadowShow;
+			});
+		}
+		buttonRef.current?.addEventListener("click", toggleShadow);
+	}, []);
 
 	if (btnType === "link") {
 		return (
@@ -53,9 +66,14 @@ export const Button: React.FC<IButtonProps> = (props) => {
 		);
 	} else {
 		return (
-			<button className={classNames} {...restProps} disabled={disabled}>
-				{children}
-			</button>
+			<span className={buttonWrapperClassNames}>
+				<button className={classNames} {...restProps} disabled={disabled} ref={buttonRef}>
+					{children}
+				</button>
+				<Transition timeout={600} type="scale-and-disappear" visible={isShadowShow}>
+					<span className={buttonShadowClassNames}></span>
+				</Transition>
+			</span>
 		);
 	}
 };
