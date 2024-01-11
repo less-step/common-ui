@@ -21,11 +21,11 @@ function App() {
 					<Button size="sm">Button</Button>
 					<Button size="lg">Button</Button>
 					<hr />
-					<Button btnType="primary">Button</Button>
-					<Button btnType="primary" size="sm">
+					<Button type="primary">Button</Button>
+					<Button type="primary" size="sm">
 						Button
 					</Button>
-					<Button btnType="primary" size="lg">
+					<Button type="primary" size="lg">
 						Button
 					</Button>
 					<hr />
@@ -45,28 +45,28 @@ function App() {
 						Button
 					</Button>
 					<hr />
-					<Button danger btnType="primary">
+					<Button danger type="primary">
 						Button
 					</Button>
-					<Button size="sm" danger btnType="primary">
+					<Button size="sm" danger type="primary">
 						Button
 					</Button>
-					<Button size="lg" danger btnType="primary">
+					<Button size="lg" danger type="primary">
 						Button
 					</Button>
 					<hr />
-					<Button danger btnType="primary" disabled>
+					<Button danger type="primary" disabled>
 						禁用
 					</Button>
-					<Button size="sm" danger btnType="primary" disabled>
+					<Button size="sm" danger type="primary" disabled>
 						禁用
 					</Button>
-					<Button size="lg" danger btnType="primary" disabled>
+					<Button size="lg" danger type="primary" disabled>
 						禁用
 					</Button>
 					<hr />
 					<Button
-						btnType="link"
+						type="link"
 						danger
 						size="lg"
 						onClick={(e) => {
@@ -76,10 +76,10 @@ function App() {
 					>
 						Button
 					</Button>
-					<Button btnType="link" danger size="mid" disabled>
+					<Button type="link" danger size="mid" disabled>
 						Button
 					</Button>
-					<Button btnType="link" danger size="sm">
+					<Button type="link" danger size="sm">
 						Button
 					</Button>
 					<hr />

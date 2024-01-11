@@ -1,11 +1,9 @@
-import React, { InputHTMLAttributes, ReactNode, useEffect, useRef, useState } from "react";
+import React, { InputHTMLAttributes, ReactNode } from "react";
 import { DEFAULT_SIZE, SIZE } from "../../consts";
-import { MergeTypes } from "../../consts/types";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import Icon from "../Icon/icon";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Transition from "../Transition/transition";
 export interface InputBaseProps {
 	disabled?: boolean;
 	readonly?: boolean;
@@ -15,8 +13,8 @@ export interface InputBaseProps {
 	size?: SIZE;
 	placeholder?: string;
 }
-
-type InputProps = Partial<MergeTypes<InputHTMLAttributes<HTMLElement>, InputBaseProps>>;
+type OmitKeys = "size" | "disabled";
+type InputProps = Partial<Omit<InputHTMLAttributes<HTMLElement>, OmitKeys> & InputBaseProps>;
 
 const displayName = "Input";
 const classNamePrefix = "input";
@@ -38,12 +36,12 @@ export const Input: React.FC<InputProps> = (props) => {
 	const inputIconClassNames = useClassNames(`${classNamePrefix}-icon`);
 
 	return (
-		<span className={inputGroupClassNames} {...resetProps}>
+		<span className={inputGroupClassNames} style={style}>
 			{prepend && <span className={inputPrependClassNames}>{prepend}</span>}
 
-			<span className={inputWrapperClassNames}>
+			<span className={inputWrapperClassNames} tabIndex={-1}>
 				{icon && <Icon icon={icon} className={inputIconClassNames} />}
-				<input type="text" placeholder={placeholder} />
+				<input type="text" placeholder={placeholder} {...resetProps} />
 			</span>
 
 			{append && <span className={inputAppendClassNames}>{append}</span>}
@@ -53,8 +51,6 @@ export const Input: React.FC<InputProps> = (props) => {
 
 Input.defaultProps = {
 	size: DEFAULT_SIZE,
-	prepend: "123",
-	append: "1212",
 };
 Input.displayName = displayName;
 export default Input;

@@ -6,7 +6,7 @@ import Transition from "../Transition/transition";
 type TBtnType = "link" | "primary" | "default";
 interface IButtonBaseProps {
 	/**按钮类型 */
-	btnType?: TBtnType;
+	type?: TBtnType;
 	/**是否禁用 */
 	disabled?: boolean;
 	/**大小 */
@@ -22,7 +22,7 @@ interface IButtonBaseProps {
 	/**链接地址 */
 	href?: string;
 }
-type IButtonProps = Partial<IButtonBaseProps & ButtonHTMLAttributes<HTMLElement>>;
+type IButtonProps = Partial<IButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLElement>, "type">>;
 const displayName = "Button";
 const classNamePrefix = "btn";
 const baseClassName = classNamePrefix;
@@ -35,15 +35,15 @@ const baseClassName = classNamePrefix;
  * @returns
  */
 export const Button: React.FC<IButtonProps> = (props) => {
-	const { btnType, disabled, size, className, children, danger, href, ...restProps } = props;
+	const { type, disabled, size, className, children, danger, href, ...restProps } = props;
 	const originalClassNames = useMemo(() => {
 		return cls(baseClassName, {
-			[`${classNamePrefix}-${btnType}`]: btnType,
+			[`${classNamePrefix}-${type}`]: type,
 			[`${classNamePrefix}-danger`]: danger,
 			[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,
 			disabled,
 		});
-	}, [btnType, size, disabled, danger]);
+	}, [type, size, disabled, danger]);
 	const classNames = cls(useClassNames(originalClassNames), className);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const [isShadowShow, setIsShadowShow] = useState(false);
@@ -58,7 +58,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 		buttonRef.current?.addEventListener("click", toggleShadow);
 	}, []);
 
-	if (btnType === "link") {
+	if (type === "link") {
 		return (
 			<a className={classNames} {...restProps} href={href} target="__blank">
 				{children}

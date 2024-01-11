@@ -1,3 +1,6 @@
+$input-text-indent: $input-padding-x * 2 + $input-font-size;
+$input-text-indent-lg: $input-padding-x-lg * 2 + $input-font-size-lg;
+$input-text-indent-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
 .#{$app-name} {
 	&-input-group {
 		display: inline-flex;
@@ -6,9 +9,11 @@
 		border-radius: $input-border-radius;
 		/* 图标 */
 		& .#{$app-name}-input-icon {
-			padding-right: $input-padding-x;
+			transform: translateX(100%);
+			padding: 0 $input-padding-x;
 			cursor: default;
 		}
+		/* size */
 		&-sm {
 			border-radius: $input-border-radius-sm;
 			& > * {
@@ -17,7 +22,10 @@
 				line-height: $line-height-sm !important;
 			}
 			& .#{$app-name}-input-icon {
-				padding-right: $input-padding-x-sm;
+				padding: 0 $input-padding-x-sm;
+			}
+			& input {
+				text-indent: $input-text-indent-sm;
 			}
 		}
 		&-lg {
@@ -28,7 +36,10 @@
 				line-height: $line-height-lg !important;
 			}
 			& .#{$app-name}-input-icon {
-				padding-right: $input-padding-x-lg;
+				padding: 0 $input-padding-x-lg;
+			}
+			& input {
+				text-indent: $input-text-indent-lg;
 			}
 		}
 		/* 禁用&只读 */
@@ -56,22 +67,19 @@
 	}
 	/* input的包装div */
 	&-input-wrapper {
-		border: $input-border-width solid $input-border-color;
-		padding: $input-padding-y $input-padding-x;
-		line-height: $line-height-mid;
-		font-size: $input-font-size;
-		font-family: $input-font-family;
-		&:focus,
-		&:hover {
-			border-color: $primary;
-			box-shadow: $input-box-shadow;
-		}
 		& > input {
+			border: $input-border-width solid $input-border-color;
+			padding: $input-padding-y $input-padding-x;
+			line-height: $line-height-mid;
+			font-size: $input-font-size;
+			font-family: $input-font-family;
+			text-indent: $input-text-indent;
 			&::placeholder {
 				color: $input-placeholder-color;
 			}
-			& {
-				border-width: 0;
+			&:focus,
+			&:hover {
+				border-color: $primary;
 			}
 		}
 	}
@@ -89,12 +97,5 @@
 		text-align: center;
 		user-select: none;
 		white-space: nowrap;
-	}
-	&-input-shadow {
-		background-color: $primary;
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		z-index: -1;
 	}
 }

@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
 	args: {
-		btnType: "primary",
+		type: "primary",
 	},
 };
 
@@ -44,7 +44,7 @@ Disabled.storyName = "禁用的";
 
 export const Linked: Story = {
 	args: {
-		btnType: "link",
+		type: "link",
 	},
 };
 Linked.storyName = "链接";

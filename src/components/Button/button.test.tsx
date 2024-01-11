@@ -14,7 +14,7 @@ describe("测试按钮组件", () => {
 	});
 	it("primary按钮正常显示", () => {
 		render(
-			<Button btnType="primary" onMouseOver={mouseOverHandler}>
+			<Button type="primary" onMouseOver={mouseOverHandler}>
 				按钮
 			</Button>,
 		);
@@ -23,7 +23,7 @@ describe("测试按钮组件", () => {
 		expect(element).toHaveClass(`${APPNAME}-btn-primary`);
 	});
 	it("link按钮正常显示", () => {
-		render(<Button btnType="link">按钮</Button>);
+		render(<Button type="link">按钮</Button>);
 		const element = screen.getByText("按钮");
 		expect(element).toBeInTheDocument();
 		expect(element).toHaveClass(`${APPNAME}-btn-link`);
