@@ -19,13 +19,13 @@
 				color: $primary;
 			}
 			&:hover {
-				background-color: lighten($primary, 42%);
+				background-color: lighten($primary, $hover-background-color-amount);
 			}
 		}
 		& .#{$app-name}-submenu {
 			& .#{$app-name}-submenu-title {
 				&:hover {
-					background-color: lighten($primary, 42%);
+					background-color: lighten($primary, $hover-background-color-amount);
 				}
 			}
 			& .#{$app-name}-submenu-content {
@@ -33,7 +33,7 @@
 				left: 0;
 				top: 100%;
 				padding: 12px;
-				margin-top: 12px;
+				margin-top: $popover-margin;
 				list-style: none;
 				z-index: 9;
 				background-color: $background-color-base;
@@ -55,7 +55,7 @@
 				color: $primary;
 			}
 			&:hover {
-				background-color: lighten($primary, 42%);
+				background-color: lighten($primary, $hover-background-color-amount);
 			}
 		}
 		& .#{$app-name}-submenu {
@@ -64,7 +64,7 @@
 					transition: none;
 				}
 				&:hover {
-					background-color: lighten($primary, 42%);
+					background-color: lighten($primary, $hover-background-color-amount);
 				}
 			}
 			& .#{$app-name}-submenu-content {

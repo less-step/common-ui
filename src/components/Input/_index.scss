@@ -1,6 +1,6 @@
-$input-text-indent: $input-padding-x * 2 + $input-font-size;
-$input-text-indent-lg: $input-padding-x-lg * 2 + $input-font-size-lg;
-$input-text-indent-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
+$input-padding-left: $input-padding-x * 2 + $input-font-size;
+$input-padding-left-lg: $input-padding-x-lg * 2 + $input-font-size-lg;
+$input-padding-left-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
 .#{$app-name} {
 	&-input-group {
 		display: inline-flex;
@@ -9,37 +9,69 @@ $input-text-indent-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
 		border-radius: $input-border-radius;
 		/* 图标 */
 		& .#{$app-name}-input-icon {
-			transform: translateX(100%);
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
 			padding: 0 $input-padding-x;
 			cursor: default;
 		}
 		/* size */
 		&-sm {
 			border-radius: $input-border-radius-sm;
-			& > * {
+			& > :first-child,
+			& > :first-child > input {
+				border-top-left-radius: $input-border-radius-sm !important;
+				border-bottom-left-radius: $input-border-radius-sm !important;
+			}
+			& > :last-child,
+			& > :first-child > input {
+				border-top-right-radius: $input-border-radius-sm !important;
+				border-bottom-right-radius: $input-border-radius-sm !important;
+			}
+			& > .#{$app-name}-input-wrapper > input,
+			& > .#{$app-name}-input-append,
+			& > .#{$app-name}-input-prepend {
 				padding: $input-padding-y-sm $input-padding-x-sm !important;
 				font-size: $input-font-size-sm !important;
 				line-height: $line-height-sm !important;
 			}
+			& > .#{$app-name}-input-wrapper > input {
+				&.has-icon {
+					padding-left: $input-padding-left-sm !important;
+				}
+			}
 			& .#{$app-name}-input-icon {
 				padding: 0 $input-padding-x-sm;
-			}
-			& input {
-				text-indent: $input-text-indent-sm;
 			}
 		}
 		&-lg {
 			border-radius: $input-border-radius-lg;
-			& > * {
+			/* 圆角 */
+			& > :first-child,
+			& > :first-child > input {
+				border-top-left-radius: $input-border-radius-lg !important;
+				border-bottom-left-radius: $input-border-radius-lg !important;
+			}
+			& > :last-child,
+			& > :first-child > input {
+				border-top-right-radius: $input-border-radius-lg !important;
+				border-bottom-right-radius: $input-border-radius-lg !important;
+			}
+			& > .#{$app-name}-input-wrapper > input,
+			& > .#{$app-name}-input-append,
+			& > .#{$app-name}-input-prepend {
 				padding: $input-padding-y-lg $input-padding-x-lg !important;
 				font-size: $input-font-size-lg !important;
 				line-height: $line-height-lg !important;
 			}
+			& > .#{$app-name}-input-wrapper > input {
+				&.has-icon {
+					padding-left: $input-padding-left-lg !important;
+				}
+			}
 			& .#{$app-name}-input-icon {
 				padding: 0 $input-padding-x-lg;
-			}
-			& input {
-				text-indent: $input-text-indent-lg;
 			}
 		}
 		/* 禁用&只读 */
@@ -56,30 +88,37 @@ $input-text-indent-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
 			color: $input-disabled-color !important;
 		}
 		/* 圆角 */
-		& :first-child {
-			border-top-left-radius: $input-border-radius;
-			border-bottom-left-radius: $input-border-radius;
+		& > :first-child,
+		& > :first-child > input {
+			border-top-left-radius: $input-border-radius !important;
+			border-bottom-left-radius: $input-border-radius !important;
 		}
-		& :last-child {
-			border-top-right-radius: $input-border-radius;
-			border-bottom-right-radius: $input-border-radius;
+		& > :last-child,
+		& > :first-child > input {
+			border-top-right-radius: $input-border-radius !important;
+			border-bottom-right-radius: $input-border-radius !important;
 		}
 	}
 	/* input的包装div */
 	&-input-wrapper {
+		position: relative;
 		& > input {
 			border: $input-border-width solid $input-border-color;
+			border-radius: 0;
 			padding: $input-padding-y $input-padding-x;
 			line-height: $line-height-mid;
 			font-size: $input-font-size;
 			font-family: $input-font-family;
-			text-indent: $input-text-indent;
 			&::placeholder {
 				color: $input-placeholder-color;
 			}
 			&:focus,
 			&:hover {
 				border-color: $primary;
+				box-shadow: $input-box-shadow;
+			}
+			&.has-icon {
+				padding-left: $input-padding-left;
 			}
 		}
 	}
