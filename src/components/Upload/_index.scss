@@ -1,0 +1,58 @@
+$upload: "upload";
+.#{$app-name} {
+	&-#{$upload} {
+		&-trigger {
+		}
+		&-files {
+			list-style: none;
+			padding-left: 0;
+			padding-top: $popover-margin;
+		}
+		&-file {
+			position: relative;
+			border-left: 4px solid $primary;
+			line-height: 1.5;
+			margin-top: 2px;
+			padding-left: 1rem;
+			box-shadow: 0 0 6px 0 #e0e0e0;
+			background-color: $white;
+			& .close-icon {
+				position: absolute;
+				top: 50%;
+				right: 1rem;
+				transform: translate(-50%, -50%);
+			}
+			&-percentage {
+				padding-right: 3rem;
+			}
+			&:hover {
+				background-color: lighten($secondary, 5%);
+			}
+			&.uploading {
+				border-color: transparent;
+			}
+			&.success {
+				border-color: $success;
+				line-height: 3;
+				& .success-icon {
+					position: absolute;
+					top: 50%;
+					right: 1rem;
+					transform: translate(-50%, -50%);
+					cursor: default;
+				}
+			}
+			&.error {
+				line-height: 3;
+				border-color: $danger;
+				& .error-icon {
+					position: absolute;
+					top: 50%;
+					right: 1rem;
+					transform: translate(-50%, -50%);
+					cursor: default;
+				}
+			}
+		}
+	}
+}

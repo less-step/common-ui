@@ -28,8 +28,7 @@ const baseClassName = classNamePrefix;
 const inputGroupBaseClassName = `${baseClassName}-group`;
 
 export const Input: React.FC<InputProps> & SubComponents = (props) => {
-	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, onChange, ...resetProps } =
-		props;
+	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, onChange, ...resetProps } = props;
 	if ("value" in props) {
 		delete resetProps.defaultValue;
 		if (resetProps.value === null || typeof resetProps.value === "undefined") {
@@ -37,22 +36,22 @@ export const Input: React.FC<InputProps> & SubComponents = (props) => {
 		}
 	}
 	const inputGroupClassNames = useClassNames(
-		cls(inputGroupBaseClassName, className, {
+		cls(inputGroupBaseClassName, {
 			disabled,
 			readonly,
 			[`${inputGroupBaseClassName}-${size}`]: size !== DEFAULT_SIZE,
 		}),
-		className ? [className] : undefined,
 	);
 	const inputWrapperClassNames = useClassNames(`${classNamePrefix}-wrapper`);
 	const inputPrependClassNames = useClassNames(`${classNamePrefix}-prepend`);
 	const inputAppendClassNames = useClassNames(`${classNamePrefix}-append`);
 	const inputIconClassNames = useClassNames(`${classNamePrefix}-icon`);
+	//经过验证还是将外部className传递给input标签
 	const inputClassNames = useClassNames(
-		cls(`${classNamePrefix}`, {
+		cls(`${classNamePrefix}`, className, {
 			"has-icon": !!icon,
 		}),
-		["has-icon"],
+		["has-icon", ...(className ? className.split(" ") : [])],
 	);
 	return (
 		<span className={inputGroupClassNames} style={style}>
@@ -60,13 +59,7 @@ export const Input: React.FC<InputProps> & SubComponents = (props) => {
 
 			<span className={inputWrapperClassNames} tabIndex={-1}>
 				{icon && <Icon icon={icon} className={inputIconClassNames} />}
-				<input
-					type="text"
-					placeholder={placeholder}
-					className={inputClassNames}
-					onChange={onChange}
-					{...resetProps}
-				/>
+				<input type="text" placeholder={placeholder} className={inputClassNames} onChange={onChange} {...resetProps} />
 			</span>
 			{append && <span className={inputAppendClassNames}>{append}</span>}
 		</span>

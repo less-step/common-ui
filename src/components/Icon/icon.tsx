@@ -5,7 +5,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
 library.add(fas);
-type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
+export type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
 interface IIconBaseProps {
 	className?: string;
 	style?: CSSProperties;

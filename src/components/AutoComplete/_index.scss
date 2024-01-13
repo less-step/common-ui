@@ -1,40 +1,42 @@
 /* AutoComplete */
-
+$auto-complete: "auto-complete";
 .#{$app-name} {
-	&-auto-complete-group {
-		display: inline-block;
-		position: relative;
-	}
-	&-auto-complete-input {
-	}
-	&-auto-complete-popover {
-		position: absolute;
-		left: 0;
-		top: 100%;
-		min-width: 100%;
-		padding: $popover-padding;
-		padding-right: 6px;
-		margin-top: $popover-margin;
-		box-shadow: $submenu-box-shadow;
-		border-radius: $input-border-radius;
-		::-webkit-scrollbar {
-			width: 6px; /* 滚动条宽度 */
+	&-#{$auto-complete} {
+		&-group {
+			display: inline-block;
+			position: relative;
 		}
-	}
-	&-auto-complete-suggestions {
-		list-style: none;
-		padding: 0;
-		overflow-y: auto;
-		max-height: 500px;
-	}
-	&-auto-complete-suggestion {
-		padding: $popover-margin;
-		border-radius: $menu-item-border-radius;
-		cursor: pointer;
-		transition: text-indent 0.4s;
-		&.active {
-			background-color: lighten($color: $primary, $amount: $hover-background-color-amount);
-			text-indent: 1rem;
+		&-input {
+		}
+		&-popover {
+			position: absolute;
+			left: 0;
+			top: 100%;
+			min-width: 100%;
+			padding: $popover-padding;
+			padding-right: 6px;
+			margin-top: $popover-margin;
+			box-shadow: $submenu-box-shadow;
+			border-radius: $input-border-radius;
+			::-webkit-scrollbar {
+				width: 6px; /* 滚动条宽度 */
+			}
+		}
+		&-suggestions {
+			list-style: none;
+			padding: 0;
+			overflow-y: auto;
+			max-height: 500px;
+		}
+		&-suggestion {
+			padding: $popover-margin;
+			border-radius: $menu-item-border-radius;
+			cursor: pointer;
+			transition: text-indent 0.4s;
+			&.active {
+				background-color: lighten($color: $primary, $amount: $hover-background-color-amount);
+				text-indent: 1rem;
+			}
 		}
 	}
 }

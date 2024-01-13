@@ -1,0 +1,59 @@
+$percentage: "percentage";
+@keyframes charging {
+	0% {
+		right: 100%;
+	}
+	50% {
+		right: 50%;
+	}
+	100% {
+		right: 0%;
+	}
+}
+.#{$app-name} {
+	&-#{$percentage} {
+		&-group {
+			width: 100%;
+			display: flex;
+			align-items: center;
+		}
+
+		& {
+			flex: 1;
+			border-radius: $percentage-border-radius;
+			height: 24px;
+			background-color: $percentage-background-color;
+		}
+
+		&-loading {
+			width: 2 * $font-size-noraml;
+			text-align: center;
+		}
+
+		&-bar {
+			position: relative;
+			background-color: $percentage-bar-background-color;
+			border-radius: $percentage-border-radius;
+			height: 100%;
+			&-loading::before {
+				content: "";
+				position: absolute;
+				left: 0;
+				background: linear-gradient(to right, $cyan 100%, $primary 0%);
+				right: 100%;
+				top: 0;
+				bottom: 0;
+				border-right: 1px solid $cyan;
+				border-radius: $percentage-border-radius;
+				animation: charging 3s linear infinite;
+			}
+			transition: width 0.5s linear;
+		}
+
+		&-rate {
+			width: 3 * $font-size-noraml;
+			font-size: $font-size-sm;
+			text-align: center;
+		}
+	}
+}

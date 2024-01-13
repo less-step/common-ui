@@ -3,7 +3,7 @@ import { Button } from "./button";
 import mdx from "./button.mdx";
 import React from "react";
 const meta = {
-	title: "Button",
+	title: "按钮",
 	component: Button,
 	parameters: {
 		docs: {

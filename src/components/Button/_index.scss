@@ -55,13 +55,6 @@
 				opacity: $btn-hover-opacity;
 			}
 		}
-		&-link {
-			border-color: transparent !important;
-			box-shadow: none !important;
-			&:hover {
-				border-color: transparent !important;
-			}
-		}
 		//danger&link
 		&-danger.#{$prefix}-btn-link {
 			color: $danger;
@@ -86,6 +79,21 @@
 			pointer-events: none;
 			background-color: $gray-300 !important;
 			color: $gray-800 !important;
+			border-color: transparent !important;
+		}
+		&-link {
+			color: $primary;
+			border-color: transparent !important;
+			box-shadow: none !important;
+			&:hover {
+				border-color: transparent !important;
+			}
+			&:disabled,
+			&.disabled {
+				background-color: transparent !important;
+				color: $gray-800 !important;
+				border-color: transparent !important;
+			}
 		}
 		&-shadow {
 			position: absolute;

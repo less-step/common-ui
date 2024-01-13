@@ -31,11 +31,11 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	const [inputValue, setInputValue] = useState(""); //输入框值
 	const [suggestions, setSuggestions] = useState<OptionType[]>([]); //popover中的suggestions
 	const [popoverVisible, setPopoverVisible] = useState(false); //popover显隐
-	const [activeIndex, setActiveIndex] = useState<number>(0); //高亮index
+	const [activeIndex, setActiveIndex] = useState<number>(-1); //高亮index
 	const [fetchLoading, setFetchLoading] = useState(true); //fetchSuggestions的loading
 	const debounceInputValue = useDebounce<string>(inputValue, 300); //input的debounce值
 	const autoCompleteGroupClassNames = useClassNames(cls(`${classNamePrefix}-group`));
-	const autoCompleteInputClassNames = useClassNames(cls(`${classNamePrefix}-input`, className), className ? [className] : undefined);
+	const autoCompleteInputClassNames = useClassNames(cls(`${classNamePrefix}-input`, className), className ? className.split(" ") : undefined);
 	const autoCompletePopoverClassNames = useClassNames(cls(`${classNamePrefix}-popover`));
 	const autoCompleteSuggestionsClassNames = useClassNames(cls(`${classNamePrefix}-suggestions`));
 	const autoCompleteSuggestionClassNames = useClassNames(cls(`${classNamePrefix}-suggestion`));
@@ -48,6 +48,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 		setPopoverVisible(false);
 		onSelect?.(suggestion);
 	};
+
 	const onInputKeyDownHandler = (e: React.KeyboardEvent<HTMLElement>) => {
 		let newActiveIndex;
 		switch (e.key) {
@@ -69,6 +70,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 			default:
 		}
 	};
+
 	useMemo(() => {
 		if (debounceInputValue === "" || !shouldFetch.current) return;
 		setFetchLoading(true);
@@ -84,6 +86,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 					setFetchLoading(false);
 					setSuggestions(suggestions);
 					setPopoverVisible(suggestions.length > 0);
+					setActiveIndex(-1);
 					return;
 				},
 				() => {
@@ -96,6 +99,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	const setPopoverVisibleFalse = useCallback(() => {
 		setPopoverVisible(false);
 	}, []);
+
 	useClickOutsize(containerRef, setPopoverVisibleFalse);
 
 	/* 因为考虑到ul是非行内元素，所以最外层的group用div */
@@ -119,11 +123,11 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 				{...restProps}
 			/>
 			<Transition visible={popoverVisible} type={"zoom-in-top"} timeout={300}>
-				<div className={autoCompletePopoverClassNames} hidden={!popoverVisible}>
+				<div className={autoCompletePopoverClassNames}>
 					{fetchLoading ? (
 						<Icon icon="spinner" spin />
 					) : (
-						<ul className={autoCompleteSuggestionsClassNames} ref={suggestionsRef}>
+						<ul className={autoCompleteSuggestionsClassNames} ref={suggestionsRef} aria-label="ul">
 							{suggestions.map((suggestion, index) => {
 								const suggestionClassNames = cls(autoCompleteSuggestionClassNames, {
 									active: index === activeIndex,
@@ -135,6 +139,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 										className={suggestionClassNames}
 										onMouseOver={() => setActiveIndex(index)}
 										onMouseLeave={() => setActiveIndex(0)}
+										aria-label="li"
 									>
 										{suggestion[fieldNamesMap.label]}
 									</li>
