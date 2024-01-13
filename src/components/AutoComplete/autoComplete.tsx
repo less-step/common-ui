@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Input, { InputProps } from "../Input/input";
-import { useClassNames, useClickOutsize, useDebounce } from "../../hooks";
+import { useClassNames, useClickOutsize, useDebounce, useUlScroll } from "../../hooks";
 import cls from "classnames";
 import Transition from "../Transition/transition";
 import Icon from "../Icon/icon";
@@ -40,6 +40,8 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	const autoCompleteSuggestionsClassNames = useClassNames(cls(`${classNamePrefix}-suggestions`));
 	const autoCompleteSuggestionClassNames = useClassNames(cls(`${classNamePrefix}-suggestion`));
 	const fieldNamesMap = fieldNames as FieldNamesType;
+	const { scrollDown, scrollUp } = useUlScroll(suggestionsRef, activeIndex);
+
 	const onSuggestionSelectedHandler = (suggestion: OptionType) => {
 		shouldFetch.current = false;
 		setInputValue(suggestion[fieldNamesMap.value]);
@@ -50,23 +52,15 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 		let newActiveIndex;
 		switch (e.key) {
 			case "ArrowUp":
-				newActiveIndex = Math.max(activeIndex - 1, 0);
-				setActiveIndex(newActiveIndex);
-				if (suggestionsRef.current) {
-					const liHeight = suggestionsRef.current.scrollHeight / suggestions.length;
-					const bottomHeight = liHeight * (suggestions.length - newActiveIndex);
-					const scrollBottom = suggestionsRef.current.scrollHeight - suggestionsRef.current.clientHeight - suggestionsRef.current.scrollTop;
-					suggestionsRef.current.scrollTop =
-						suggestionsRef.current.scrollHeight - Math.max(bottomHeight - suggestionsRef.current.clientHeight, scrollBottom) - suggestionsRef.current.clientHeight;
+				newActiveIndex = scrollUp();
+				if (typeof newActiveIndex !== "undefined") {
+					setActiveIndex(newActiveIndex);
 				}
 				return;
 			case "ArrowDown":
-				newActiveIndex = Math.min(activeIndex + 1, suggestions.length - 1);
-				setActiveIndex(newActiveIndex);
-				if (suggestionsRef.current) {
-					const liHeight = suggestionsRef.current.scrollHeight / suggestions.length;
-					const aboveLiHeight = liHeight * (newActiveIndex + 1);
-					suggestionsRef.current.scrollTop = Math.max(aboveLiHeight - suggestionsRef.current.clientHeight, suggestionsRef.current.scrollTop);
+				newActiveIndex = scrollDown();
+				if (typeof newActiveIndex !== "undefined") {
+					setActiveIndex(newActiveIndex);
 				}
 				return;
 			case "Enter":
