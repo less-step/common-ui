@@ -129,7 +129,8 @@
 		"moduleNameMapper": {
 			"^.+\\.(css|less|scss)$": "identity-obj-proxy",
 			"^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-			"^react-native$": "react-native-web"
+			"^react-native$": "react-native-web",
+			"^axios$": "axios/dist/axios.js"
 		},
 		"modulePaths": [],
 		"resetMocks": true,
@@ -152,13 +153,14 @@
 			"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
 			"^.+\\.css$": "<rootDir>/config/jest/cssTransform.js"
 		},
-		"transformIgnorePatterns": [
-			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-			"^.+\\.module\\.(css|sass|scss)$"
-		],
 		"watchPlugins": [
 			"jest-watch-typeahead/filename",
 			"jest-watch-typeahead/testname"
+		],
+		"transformIgnorePatterns": [
+			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+			"^.+\\.module\\.(css|sass|scss)$",
+			"/node_modules/(?!(axios)/)"
 		]
 	},
 	"name": "less-step-common",

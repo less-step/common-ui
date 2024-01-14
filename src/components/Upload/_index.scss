@@ -3,9 +3,13 @@ $dragger: "dragger";
 .#{$app-name} {
 	&-#{$upload} {
 		&-trigger {
+			display: inline-block;
 			cursor: pointer;
 			&:hover {
 				box-shadow: $box-shadow-default;
+			}
+			&-drag {
+				display: block;
 			}
 		}
 		&-files {

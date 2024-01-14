@@ -1,24 +1,28 @@
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
+import { AxiosHeaders } from "axios";
 import cls from "classnames";
-import React, { HTMLAttributes, ReactNode, useMemo, useRef, useState } from "react";
-import { useClassNames } from "../../hooks";
+import React, { HTMLAttributes, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { useClassNames, useDebounce } from "../../hooks";
 import Button from "../Button/button";
 import { uniqueId } from "lodash";
 import { Percentage } from "../Percentage/percentage";
 import Icon from "../Icon/icon";
 import { Dragger } from "./dragger";
+import Transition from "../Transition/transition";
 interface AnyObject {
 	[key: string]: any;
 }
 
-type UploadStatus = "uploading" | "success" | "error";
+type UploadStatus = "uploading" | "success" | "error" | "deleted"; //deleted状态是为了做删除动效
 type TriggerType = "drag" | "select";
-interface UploadFileType {
+export interface UploadFileType {
 	file: File;
 	status: UploadStatus;
 	percentage: number;
 	uid: string;
 	fileName: string;
+	response: any;
+	size: number;
 }
 export interface UploadBaseProps {
 	children?: ReactNode;
@@ -50,30 +54,10 @@ export interface UploadBaseProps {
 	hideFileList?: boolean;
 	/**触发文件上传的操作类型 */
 	triggerType?: TriggerType;
+	/**默认文件 */
+	defaultFileList?: UploadFileType[];
 }
-const mockUploadFiles = [
-	{
-		fileName: "微信截图_20231231202700.png",
-		status: "error",
-		file: new File([], "jss"),
-		percentage: 50,
-		uid: uniqueId(),
-	},
-	{
-		fileName: "微信截图_20231231202700.png",
-		status: "success",
-		file: new File([], "jss"),
-		percentage: 50,
-		uid: uniqueId(),
-	},
-	{
-		fileName: "微信截图_20231231202701.png",
-		status: "uploading",
-		file: new File([], "jss测试"),
-		percentage: 40,
-		uid: uniqueId(),
-	},
-];
+
 type UploadProps = UploadBaseProps & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
 
 const displayName = "Upload";
@@ -97,12 +81,17 @@ export const Upload: React.FC<UploadProps> = (props) => {
 		multiple,
 		hideFileList,
 		triggerType,
+		defaultFileList = [],
 	} = props;
-	const [uploadFiles, setUploadFiles] = useState<UploadFileType[]>(mockUploadFiles as UploadFileType[]);
+	const [uploadFiles, setUploadFiles] = useState<UploadFileType[]>([]);
 	const [activeIndex, setActiveIndex] = useState(-1);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const uploadClassName = useClassNames(cls(baseClassName, className), className ? className.split(" ") : []);
-	const uploadTriggerClassName = useClassNames(cls(`${classNamePrefix}-trigger`));
+	const uploadTriggerClassName = useClassNames(
+		cls(`${classNamePrefix}-trigger`, {
+			[`${classNamePrefix}-trigger-drag`]: triggerType === "drag",
+		}),
+	);
 	const uploadFilesClassName = useClassNames(cls(`${classNamePrefix}-files`));
 	const uploadFileClassName = useClassNames(cls(`${classNamePrefix}-file`));
 	const uploadFilePercentageClassName = useClassNames(cls(`${classNamePrefix}-file-percentage`));
@@ -169,6 +158,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 								...uploadFile,
 								status: "success",
 								percentage: 100,
+								response: resp,
 							};
 						}),
 					);
@@ -185,6 +175,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 								...uploadFile,
 								status: "error",
 								percentage: 100,
+								response: error,
 							};
 						}),
 					);
@@ -223,6 +214,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
 					percentage: 0,
 					uid: uniqueId("file"),
 					fileName: file.name,
+					response: undefined,
+					size: file.size,
 				};
 			});
 			setUploadFiles([...uploadFiles, ...wrapperFiles]);
@@ -241,6 +234,10 @@ export const Upload: React.FC<UploadProps> = (props) => {
 		beforeUploadHandler(files);
 	};
 
+	useEffect(() => {
+		setUploadFiles([...defaultFileList]);
+	}, [defaultFileList]);
+
 	return (
 		<div className={uploadClassName}>
 			<div className={uploadTriggerClassName} onClick={triggerUploadHanlder}>
@@ -250,38 +247,61 @@ export const Upload: React.FC<UploadProps> = (props) => {
 			<ul className={uploadFilesClassName} hidden={hideFileList}>
 				{uploadFiles.map((uploadFile, index) => {
 					return (
-						<li
-							key={index}
-							className={cls(uploadFileClassName, {
-								[`${uploadFile.status}`]: uploadFile.status,
-							})}
-							onMouseEnter={() => setActiveIndex(index)}
-							onMouseLeave={() => setActiveIndex(-1)}
+						<Transition
+							visible={uploadFile.status !== "deleted"}
+							type="zoom-in-right"
+							timeout={300}
+							onExited={() => {
+								setUploadFiles((uploadFiles) => {
+									return uploadFiles.filter((file) => file.uid !== uploadFile.uid);
+								});
+							}}
+							key={uploadFile.uid}
 						>
-							{uploadFile.fileName}
-							{uploadFile.status === "uploading" && (
-								<div className={uploadFilePercentageClassName}>
-									<Percentage rate={uploadFile.percentage} height={8} loading={true} />
-								</div>
-							)}
-							{activeIndex !== index && uploadFile.status === "error" && <Icon icon="circle-xmark" className="error-icon" theme="danger" />}
-							{activeIndex !== index && uploadFile.status === "success" && <Icon icon="circle-check" className="success-icon" theme="success" />}
-							{activeIndex === index && (
-								<Icon
-									icon="circle-xmark"
-									className="close-icon"
-									onClick={() => {
-										setUploadFiles((uploadFiles) => {
-											return uploadFiles.filter((file) => file.uid !== uploadFile.uid);
-										});
-									}}
-								/>
-							)}
-						</li>
+							<li
+								key={uploadFile.uid}
+								className={cls(uploadFileClassName, {
+									[`${uploadFile.status}`]: uploadFile.status,
+								})}
+								onMouseEnter={() => setActiveIndex(index)}
+								onMouseLeave={() => setActiveIndex(-1)}
+								aria-label="uploadFile"
+							>
+								{uploadFile.fileName}
+								{uploadFile.status === "uploading" && (
+									<div className={uploadFilePercentageClassName}>
+										<Percentage rate={uploadFile.percentage} height={8} loading={true} />
+									</div>
+								)}
+								{activeIndex !== index && uploadFile.status === "error" && <Icon icon="circle-xmark" className="error-icon" theme="danger" />}
+								{activeIndex !== index && uploadFile.status === "success" && <Icon icon="circle-check" className="success-icon" theme="success" />}
+								{activeIndex === index && (
+									<Icon
+										aria-label="close-icon"
+										icon="circle-xmark"
+										className="close-icon"
+										onClick={() => {
+											setUploadFiles((uploadFiles) => {
+												return uploadFiles.map((file) => {
+													if (file.uid === uploadFile.uid) {
+														return {
+															...file,
+															status: "deleted",
+														};
+													} else {
+														return file;
+													}
+												});
+											});
+										}}
+									/>
+								)}
+							</li>
+						</Transition>
 					);
 				})}
 			</ul>
-			<input type="file" hidden ref={inputRef} onChange={onInputChangeHandler} multiple={multiple} accept={accept} />
+			<input type="file" hidden ref={inputRef} onChange={onInputChangeHandler} multiple={multiple} accept={accept} aria-label="uploadInput" />
 		</div>
 	);
 };
@@ -291,4 +311,5 @@ Upload.defaultProps = {
 	filePropsName: "file",
 	data: {},
 	triggerType: "select",
+	defaultFileList: [],
 };

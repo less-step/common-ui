@@ -50,6 +50,7 @@ export const Dragger: React.FC<DraggerPropsType> = (props) => {
 
 	return (
 		<div
+			aria-label="dragger"
 			className={draggerClassName}
 			onDragOver={(e) => {
 				e.preventDefault();

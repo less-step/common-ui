@@ -6,8 +6,7 @@
 			transform: scaleY(0);
 		}
 		&-enter-active {
-			transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms,
-				opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
+			transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms, opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
 			transform-origin: $origin;
 			//display: block;
 			opacity: 1;
@@ -19,8 +18,7 @@
 			transform: scaleY(1);
 		}
 		&-exit {
-			transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms,
-				opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
+			transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms, opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
 			transform-origin: $origin;
 			//display: block;
 			opacity: 1;
@@ -39,7 +37,7 @@
 
 @include zoom-in(top, left top);
 @include zoom-in(bottom, center bottom);
-@include zoom-in(left, center left);
+@include zoom-in(left, left left);
 @include zoom-in(right, center right);
 
 .scale-and-disappear {

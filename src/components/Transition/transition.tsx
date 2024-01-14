@@ -6,13 +6,14 @@ interface ITransitionProps {
 	children: ReactNode;
 	type: TransitionType;
 	timeout: number;
+	onExited?: () => void;
 }
 const displayName = "Transition";
 
 const Transition: React.FC<ITransitionProps> = (props) => {
-	const { visible, children, type, timeout } = props;
+	const { visible, children, type, timeout, onExited } = props;
 	return (
-		<CSSTransition in={visible} timeout={timeout} classNames={type} unmountOnExit appear>
+		<CSSTransition in={visible} timeout={timeout} classNames={type} unmountOnExit appear onExited={onExited}>
 			{children}
 		</CSSTransition>
 	);
