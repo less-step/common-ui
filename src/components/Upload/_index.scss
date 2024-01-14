@@ -1,7 +1,12 @@
 $upload: "upload";
+$dragger: "dragger";
 .#{$app-name} {
 	&-#{$upload} {
 		&-trigger {
+			cursor: pointer;
+			&:hover {
+				box-shadow: $box-shadow-default;
+			}
 		}
 		&-files {
 			list-style: none;
@@ -53,6 +58,24 @@ $upload: "upload";
 					cursor: default;
 				}
 			}
+		}
+	}
+}
+
+.#{$app-name} {
+	&-#{$dragger} {
+		min-height: 200px;
+		border: 2px dashed $border-color;
+		text-align: center;
+		padding: 24px;
+		&.drag-over {
+			background-color: lighten($primary, $hover-background-color-amount);
+			border-color: $primary;
+			color: $primary;
+		}
+		& .upload-icon {
+			font-size: 5rem;
+			padding: 12px;
 		}
 	}
 }

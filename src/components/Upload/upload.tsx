@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import cls from "classnames";
 import React, { HTMLAttributes, ReactNode, useMemo, useRef, useState } from "react";
 import { useClassNames } from "../../hooks";
@@ -6,11 +6,13 @@ import Button from "../Button/button";
 import { uniqueId } from "lodash";
 import { Percentage } from "../Percentage/percentage";
 import Icon from "../Icon/icon";
+import { Dragger } from "./dragger";
 interface AnyObject {
 	[key: string]: any;
 }
 
 type UploadStatus = "uploading" | "success" | "error";
+type TriggerType = "drag" | "select";
 interface UploadFileType {
 	file: File;
 	status: UploadStatus;
@@ -33,41 +35,70 @@ export interface UploadBaseProps {
 	/**文件的字段名 */
 	filePropsName?: string;
 	/**上传的其他字段内容 */
-	otherData?: AnyObject;
+	data?: AnyObject;
 	/**上传状态改变时调用 */
 	onChange?: (file: UploadFileType) => void;
+	/**axios headers */
+	headers?: AxiosHeaders;
+	/**是否携带cookies */
+	withCredentials?: boolean;
+	/**上传文件leixing */
+	accept?: string;
+	/**是否多选 */
+	multiple?: boolean;
+	/* 隐藏文件列表 */
+	hideFileList?: boolean;
+	/**触发文件上传的操作类型 */
+	triggerType?: TriggerType;
 }
-
+const mockUploadFiles = [
+	{
+		fileName: "微信截图_20231231202700.png",
+		status: "error",
+		file: new File([], "jss"),
+		percentage: 50,
+		uid: uniqueId(),
+	},
+	{
+		fileName: "微信截图_20231231202700.png",
+		status: "success",
+		file: new File([], "jss"),
+		percentage: 50,
+		uid: uniqueId(),
+	},
+	{
+		fileName: "微信截图_20231231202701.png",
+		status: "uploading",
+		file: new File([], "jss测试"),
+		percentage: 40,
+		uid: uniqueId(),
+	},
+];
 type UploadProps = UploadBaseProps & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
 
 const displayName = "Upload";
 const classNamePrefix = "upload";
 const baseClassName = classNamePrefix;
 export const Upload: React.FC<UploadProps> = (props) => {
-	const { className, children, onProgress, onSuccess, onError, beforeUpload, onChange, filePropsName, url, otherData, ...restProps } = props;
-	const [uploadFiles, setUploadFiles] = useState<UploadFileType[]>([
-		{
-			fileName: "微信截图_20231231202700.png",
-			status: "error",
-			file: new File([], "jss"),
-			percentage: 50,
-			uid: uniqueId(),
-		},
-		{
-			fileName: "微信截图_20231231202700.png",
-			status: "success",
-			file: new File([], "jss"),
-			percentage: 50,
-			uid: uniqueId(),
-		},
-		{
-			fileName: "微信截图_20231231202701.png",
-			status: "uploading",
-			file: new File([], "jss测试"),
-			percentage: 40,
-			uid: uniqueId(),
-		},
-	]);
+	const {
+		className,
+		children,
+		onProgress,
+		onSuccess,
+		onError,
+		beforeUpload,
+		onChange,
+		filePropsName,
+		url,
+		data,
+		headers,
+		withCredentials,
+		accept,
+		multiple,
+		hideFileList,
+		triggerType,
+	} = props;
+	const [uploadFiles, setUploadFiles] = useState<UploadFileType[]>(mockUploadFiles as UploadFileType[]);
 	const [activeIndex, setActiveIndex] = useState(-1);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const uploadClassName = useClassNames(cls(baseClassName, className), className ? className.split(" ") : []);
@@ -75,7 +106,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 	const uploadFilesClassName = useClassNames(cls(`${classNamePrefix}-files`));
 	const uploadFileClassName = useClassNames(cls(`${classNamePrefix}-file`));
 	const uploadFilePercentageClassName = useClassNames(cls(`${classNamePrefix}-file-percentage`));
-	const trigger = useMemo(() => {
+	const triggerElement = useMemo(() => {
 		return (
 			children ?? (
 				<Button type="primary" size="mid">
@@ -93,9 +124,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
 		//构建表单字段
 		const formData = new FormData();
 		formData.append(filePropsName as string, wrapperFile.file);
-		if (otherData instanceof Object) {
-			Object.keys(otherData as AnyObject).forEach((key) => {
-				const data = otherData as AnyObject;
+		if (data instanceof Object) {
+			Object.keys(data as AnyObject).forEach((key) => {
 				formData.append(key, data[key]);
 			});
 		}
@@ -104,7 +134,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
 			.post(url, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
+					...headers,
 				},
+				withCredentials,
 				onUploadProgress(e) {
 					const percentage = Math.round((e.loaded * 100) / (e.total as number)) || 0;
 					if (percentage < 100) {
@@ -161,40 +193,61 @@ export const Upload: React.FC<UploadProps> = (props) => {
 			);
 	};
 
-	const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const [file] = Array.from(e.target.files as FileList);
-		const sholdUpload = beforeUpload ? beforeUpload(file) : true;
-		if (sholdUpload && sholdUpload instanceof Promise) {
-			sholdUpload.then((formatFile) => {
-				const wrapperFile: UploadFileType = {
-					file: formatFile,
+	const beforeUploadHandler = (files: File[]) => {
+		const resultPromises = files
+			.map((file) => {
+				let formatResult: Promise<File> | boolean;
+				if (beforeUpload) {
+					formatResult = beforeUpload(file);
+					if (formatResult instanceof Promise) {
+						return formatResult;
+					} else {
+						if (formatResult) {
+							return Promise.resolve(file);
+						} else {
+							return false;
+						}
+					}
+				} else {
+					return Promise.resolve(file);
+				}
+			})
+			.filter((file) => {
+				return !!file;
+			}) as Promise<File>[];
+		Promise.all(resultPromises).then((results) => {
+			const wrapperFiles: UploadFileType[] = results.map((file) => {
+				return {
+					file,
 					status: "uploading",
 					percentage: 0,
 					uid: uniqueId("file"),
-					fileName: formatFile.name,
+					fileName: file.name,
 				};
-				setUploadFiles([...uploadFiles, wrapperFile]);
+			});
+			setUploadFiles([...uploadFiles, ...wrapperFiles]);
+			wrapperFiles.forEach((wrapperFile) => {
 				uploadFileHandler(wrapperFile);
 			});
-		} else if (sholdUpload !== false) {
-			const wrapperFile: UploadFileType = {
-				file,
-				status: "uploading",
-				percentage: 0,
-				uid: uniqueId("file"),
-				fileName: file.name,
-			};
-			setUploadFiles([...uploadFiles, wrapperFile]);
-			uploadFileHandler(wrapperFile);
-		}
+		});
+	};
+
+	const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = Array.from(e.target.files as FileList);
+		beforeUploadHandler(files);
+	};
+
+	const onFilesHandler = (files: File[]) => {
+		beforeUploadHandler(files);
 	};
 
 	return (
 		<div className={uploadClassName}>
 			<div className={uploadTriggerClassName} onClick={triggerUploadHanlder}>
-				{trigger}
+				{triggerType === "drag" && <Dragger onFiles={onFilesHandler}></Dragger>}
+				{triggerType === "select" && triggerElement}
 			</div>
-			<ul className={uploadFilesClassName}>
+			<ul className={uploadFilesClassName} hidden={hideFileList}>
 				{uploadFiles.map((uploadFile, index) => {
 					return (
 						<li
@@ -208,7 +261,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 							{uploadFile.fileName}
 							{uploadFile.status === "uploading" && (
 								<div className={uploadFilePercentageClassName}>
-									<Percentage rate={uploadFile.percentage} height={8} />
+									<Percentage rate={uploadFile.percentage} height={8} loading={true} />
 								</div>
 							)}
 							{activeIndex !== index && uploadFile.status === "error" && <Icon icon="circle-xmark" className="error-icon" theme="danger" />}
@@ -228,7 +281,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 					);
 				})}
 			</ul>
-			<input type="file" hidden ref={inputRef} onChange={onInputChangeHandler} {...restProps} />
+			<input type="file" hidden ref={inputRef} onChange={onInputChangeHandler} multiple={multiple} accept={accept} />
 		</div>
 	);
 };
@@ -236,5 +289,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
 Upload.displayName = displayName;
 Upload.defaultProps = {
 	filePropsName: "file",
-	otherData: {},
+	data: {},
+	triggerType: "select",
 };

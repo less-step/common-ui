@@ -15,17 +15,19 @@ export const DefaultUpload: StoryObj<typeof meta> = {
 		onSuccess: action("success"),
 		onError: action("error"),
 		onChange: action("change"),
-		// beforeUpload: (file) => {
-		// 	if (file.size / 1024 > 50) {
-		// 		alert("file too big");
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	}
-		// },
-		otherData: { haha: 1 },
+		multiple: true,
+		accept: "image/png",
 	},
 	render(args) {
 		return <Upload {...args}></Upload>;
 	},
 };
+DefaultUpload.storyName = "默认上传";
+
+export const DraggerUpload: StoryObj<typeof meta> = {
+	args: {
+		url: "https://jsonplaceholder.typicode.com/posts",
+		triggerType: "drag",
+	},
+};
+DraggerUpload.storyName = "拖动上传";

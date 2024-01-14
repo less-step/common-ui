@@ -3,6 +3,7 @@ import { SIZE, DEFAULT_SIZE } from "../../consts";
 import { useClassNames } from "../../hooks";
 import cls from "classnames";
 import Transition from "../Transition/transition";
+import Icon from "../Icon/icon";
 type TBtnType = "link" | "primary" | "default";
 interface IButtonBaseProps {
 	/**按钮类型 */
@@ -21,6 +22,8 @@ interface IButtonBaseProps {
 	danger?: boolean;
 	/**链接地址 */
 	href?: string;
+	/**loading */
+	loading?: boolean;
 }
 type IButtonProps = Partial<IButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLElement>, "type">>;
 const displayName = "Button";
@@ -35,16 +38,17 @@ const baseClassName = classNamePrefix;
  * @returns
  */
 export const Button: React.FC<IButtonProps> = (props) => {
-	const { type, disabled, size, className, children, danger, href, ...restProps } = props;
+	const { type, disabled, size, className, children, danger, href, loading, ...restProps } = props;
 	const originalClassNames = useMemo(() => {
-		return cls(baseClassName, {
+		return cls(baseClassName, className, {
 			[`${classNamePrefix}-${type}`]: type,
 			[`${classNamePrefix}-danger`]: danger,
 			[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,
 			disabled,
+			loading,
 		});
-	}, [type, size, disabled, danger]);
-	const classNames = cls(useClassNames(originalClassNames), className);
+	}, [type, size, disabled, danger, loading, className]);
+	const classNames = useClassNames(originalClassNames, className ? className.split(" ") : []);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const [isShadowShow, setIsShadowShow] = useState(false);
 	const buttonShadowClassNames = useClassNames(`${classNamePrefix}-shadow`);
@@ -68,6 +72,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 		return (
 			<span className={buttonWrapperClassNames}>
 				<button className={classNames} {...restProps} disabled={disabled} ref={buttonRef}>
+					{loading && <Icon icon="spinner" spin style={{ marginRight: "1rem" }} />}
 					{children}
 				</button>
 				<Transition timeout={600} type="scale-and-disappear" visible={isShadowShow}>
