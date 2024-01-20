@@ -29,7 +29,7 @@ const baseClassName = classNamePrefix;
 const inputGroupBaseClassName = `${baseClassName}-group`;
 
 export const Input: React.FC<InputProps> & SubComponents = (props) => {
-	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, onChange, inputRef, ...resetProps } = props;
+	const { disabled, readonly, size, icon, prepend, append, className, placeholder, onChange, inputRef, ...resetProps } = props;
 	if ("value" in props) {
 		delete resetProps.defaultValue;
 		if (resetProps.value === null || typeof resetProps.value === "undefined") {
@@ -55,7 +55,7 @@ export const Input: React.FC<InputProps> & SubComponents = (props) => {
 		["has-icon", ...(className ? className.split(" ") : [])],
 	);
 	return (
-		<span className={inputGroupClassNames} style={style}>
+		<span className={inputGroupClassNames}>
 			{prepend && <span className={inputPrependClassNames}>{prepend}</span>}
 			<span className={inputWrapperClassNames} tabIndex={-1}>
 				{icon && <Icon icon={icon} className={inputIconClassNames} />}

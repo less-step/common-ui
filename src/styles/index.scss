@@ -10,3 +10,10 @@
 @import "../components/Upload/index.scss";
 @import "../components/Percentage/index.scss";
 @import "../components/Form/index.scss";
+
+.danger {
+	border: 1px solid $danger !important;
+	&:hover {
+		box-shadow: 0 0 4px 0 lighten($danger, 25%) !important;
+	}
+}

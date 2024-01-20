@@ -24,7 +24,7 @@ const displayName = "AutoComplete";
 const classNamePrefix = "auto-complete";
 
 export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
-	const { fetchSuggestions, onSelect, className, onChange, value, fieldNames, onKeyDown, ...restProps } = props;
+	const { fetchSuggestions, onSelect, className, onChange, value, fieldNames, onKeyDown, onInput, ...restProps } = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 	const shouldFetch = useRef<boolean>(false);
 	const suggestionsRef = useRef<HTMLUListElement>(null);
@@ -126,6 +126,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 					shouldFetch.current = true;
 					setInputValue(e.target.value);
 					onChange?.(e);
+					onInput?.(e);
 				}}
 				onKeyDown={(e) => {
 					onKeyDown?.(e);

@@ -1,13 +1,20 @@
-import React, { HtmlHTMLAttributes, ReactNode } from "react";
+import React, { HtmlHTMLAttributes, ReactNode, useImperativeHandle } from "react";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import { FormItem } from "./form-item";
-import { useStore } from "../../hooks/useStore";
+import { ErrorResult, FieldsState, useStore } from "../../hooks/useStore";
+import Button from "../Button/button";
 export interface FormBaseProps {
+	/**表单初始值，优先级低于Form.Item的initialValue */
 	initialValue?: Record<string, any>;
+	/**表单name字段 */
 	name?: string;
+	/**子节点 */
 	children?: ReactNode;
+	/**布局方式 */
 	layout?: "horizontal" | "vertical" | "inline";
+	onFinish?: (formValue: Record<string, any>) => void;
+	onFinishFail?: (errors: ErrorResult) => void;
 }
 
 type FormProps = FormBaseProps & HtmlHTMLAttributes<HTMLFormElement>;
@@ -15,31 +22,62 @@ const displayName = "Form";
 const classNamePrefix = "form";
 const baseClassName = classNamePrefix;
 
-export type FormContextType = Pick<ReturnType<typeof useStore>, "addField" | "updateField" | "fields"> & { formInitialValue?: Record<string, any> };
+export type FormRef = Pick<ReturnType<typeof useStore>, "getFieldsValue" | "getFieldValue" | "setFieldValue" | "setFieldsValue" | "resetFields" | "validateFields">;
+export type FormContextType = Pick<ReturnType<typeof useStore>, "addField" | "updateField" | "fields" | "validateField"> & { formInitialValue?: Record<string, any> };
 export const FormContext = React.createContext<FormContextType>({} as FormContextType);
-export const Form: React.FC<FormProps> & { Item: typeof FormItem } = (props) => {
-	const { initialValue, name, children, className, layout, ...restProps } = props;
-	const { form, fields, addField, updateField, setForm } = useStore();
+const FormComponent = React.forwardRef<FormRef, FormProps>((props, ref) => {
+	const { initialValue, name, children, className, layout, onFinish, onFinishFail, ...restProps } = props;
+	const { fields, addField, updateField, validateField, validateFields, resetFields, getFieldsValue, getFieldValue, setFieldValue, setFieldsValue } = useStore();
 	const formClassName = useClassNames(cls(baseClassName, className), className ? className.split(" ") : []);
 	const formContextValue = {
 		addField,
 		updateField,
 		fields,
 		formInitialValue: initialValue,
+		validateField,
 	};
+	useImperativeHandle(ref, () => {
+		return {
+			getFieldValue,
+			getFieldsValue,
+			setFieldValue,
+			setFieldsValue,
+			validateFields,
+			resetFields,
+		};
+	});
 	return (
 		<FormContext.Provider value={formContextValue}>
-			<form name={name} className={formClassName} {...restProps}>
+			<form
+				{...restProps}
+				name={name}
+				className={formClassName}
+				onSubmit={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+					validateFields().then(
+						(formValue) => {
+							onFinish?.(formValue as FieldsState);
+						},
+						(error) => {
+							console.log(error);
+							onFinishFail?.(error);
+						},
+					);
+				}}
+			>
 				{children}
 			</form>
-			<div style={{ padding: "24px" }}>
-				<pre>form:{JSON.stringify(form, null, 4)}</pre>
-				<pre>fields:{JSON.stringify(fields, null, 4)}</pre>
-			</div>
 		</FormContext.Provider>
 	);
-};
+});
 
-Form.displayName = displayName;
-Form.defaultProps = {};
+type form = typeof FormComponent & { Item: typeof FormItem };
+export const Form: form = FormComponent as any;
 Form.Item = FormItem;
+Form.displayName = displayName;
+Form.defaultProps = {
+	name: "less-step-form",
+	layout: "horizontal",
+};
+(Form as any).Item = FormItem;

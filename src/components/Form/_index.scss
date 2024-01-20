@@ -8,13 +8,23 @@ $form: "form";
 				text-align: right;
 				padding-right: $padding-mid;
 				padding-top: $padding-sm;
+				flex-shrink: 0;
+				&.required::before {
+					content: "*";
+					color: $danger;
+					padding-right: $font-size-base * 0.5;
+				}
 			}
 			&-container {
 				flex: 16;
+				flex-shrink: 0;
 			}
 			&-alert {
 				color: $danger;
 				font-size: $font-size-sm;
+				min-height: $line-height-sm;
+				list-style: none;
+				padding: 0;
 			}
 		}
 	}

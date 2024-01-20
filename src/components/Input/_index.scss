@@ -103,6 +103,7 @@ $input-padding-left-sm: $input-padding-x-sm * 2 + $input-font-size-sm;
 	&-input-wrapper {
 		position: relative;
 		& > input {
+			min-width: 300px;
 			border: $input-border-width solid $input-border-color;
 			border-radius: 0;
 			padding: $input-padding-y $input-padding-x;

@@ -25,4 +25,5 @@ npm install react-transition-group --save
 * 新增Form组件
   * Form组件中维护表单数据以及状态的控制部分抽离到useStore中处理。
   * FormItem组件中对于子控件，采用React.cloneElement的方式注入value,onChange属性，从而使子组件完全受控于Form。
+  * Form组件使用ref来实现外部控制，使用useImperativeHanlder来强制挂在ref为指定函数
 
