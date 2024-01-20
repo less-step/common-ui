@@ -16,7 +16,7 @@ function DefaultFormComponent(props: any) {
 	const { args } = props;
 	const ref = useRef<FormRef>(null);
 	return (
-		<div style={{ width: "700px", boxShadow: "0 0 7px 0 #f0f0f0" }}>
+		<div style={{ width: "700px", boxShadow: "0 0 7px 0 #f0f0f0", padding: "24px" }}>
 			<Form {...args} ref={ref}>
 				<Form.Item label="姓名" name="name" initialValue={"initialName"} rules={[{ required: true }]}>
 					<Input />
@@ -35,23 +35,26 @@ function DefaultFormComponent(props: any) {
 					<input type="checkbox" />
 				</Form.Item>
 			</Form>
-			<Button
-				type="primary"
-				onClick={() => {
-					ref.current?.validateFields().then((resp) => {
-						console.log(resp, "resp");
-					});
-				}}
-			>
-				提交
-			</Button>
-			<Button
-				onClick={() => {
-					ref.current?.resetFields();
-				}}
-			>
-				重置
-			</Button>
+			<div style={{ paddingRight: "24px", textAlign: "right" }}>
+				<Button
+					type="primary"
+					onClick={() => {
+						ref.current?.validateFields().then((resp) => {
+							console.log(resp, "resp");
+						});
+					}}
+				>
+					提交
+				</Button>
+				<Button
+					onClick={() => {
+						ref.current?.resetFields();
+					}}
+					style={{ marginLeft: "12px" }}
+				>
+					重置
+				</Button>
+			</div>
 		</div>
 	);
 }
