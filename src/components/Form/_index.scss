@@ -1,0 +1,21 @@
+$form: "form";
+.#{$app-name} {
+	&-#{$form} {
+		&-item {
+			display: flex;
+			&-label {
+				flex: 6;
+				text-align: right;
+				padding-right: $padding-mid;
+				padding-top: $padding-sm;
+			}
+			&-container {
+				flex: 16;
+			}
+			&-alert {
+				color: $danger;
+				font-size: $font-size-sm;
+			}
+		}
+	}
+}

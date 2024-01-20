@@ -1,6 +1,6 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import cls from "classnames";
-import React, { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from "react";
 import { DEFAULT_SIZE, SIZE } from "../../consts";
 import { useClassNames } from "../../hooks";
 import { AutoComplete, AutoCompleteProps } from "../AutoComplete/autoComplete";
@@ -15,6 +15,7 @@ interface InputBaseProps {
 	placeholder?: string;
 	value?: string;
 	onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+	inputRef?: React.MutableRefObject<HTMLInputElement | null>;
 }
 type OmitKeys = "size" | "disabled" | "placeholder" | "value" | "onChange";
 type SubComponents = {
@@ -28,7 +29,7 @@ const baseClassName = classNamePrefix;
 const inputGroupBaseClassName = `${baseClassName}-group`;
 
 export const Input: React.FC<InputProps> & SubComponents = (props) => {
-	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, onChange, ...resetProps } = props;
+	const { disabled, readonly, size, icon, prepend, append, className, style, placeholder, onChange, inputRef, ...resetProps } = props;
 	if ("value" in props) {
 		delete resetProps.defaultValue;
 		if (resetProps.value === null || typeof resetProps.value === "undefined") {
@@ -56,10 +57,9 @@ export const Input: React.FC<InputProps> & SubComponents = (props) => {
 	return (
 		<span className={inputGroupClassNames} style={style}>
 			{prepend && <span className={inputPrependClassNames}>{prepend}</span>}
-
 			<span className={inputWrapperClassNames} tabIndex={-1}>
 				{icon && <Icon icon={icon} className={inputIconClassNames} />}
-				<input type="text" placeholder={placeholder} className={inputClassNames} onChange={onChange} {...resetProps} />
+				<input ref={inputRef} type="text" placeholder={placeholder} className={inputClassNames} onChange={onChange} {...resetProps} />
 			</span>
 			{append && <span className={inputAppendClassNames}>{append}</span>}
 		</span>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Input, { InputProps } from "../Input/input";
 import { useClassNames, useClickOutsize, useDebounce, useUlScroll } from "../../hooks";
 import cls from "classnames";
@@ -24,7 +24,8 @@ const displayName = "AutoComplete";
 const classNamePrefix = "auto-complete";
 
 export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
-	const { fetchSuggestions, onSelect, className, onChange, fieldNames, onKeyDown, ...restProps } = props;
+	const { fetchSuggestions, onSelect, className, onChange, value, fieldNames, onKeyDown, ...restProps } = props;
+	const inputRef = useRef<HTMLInputElement>(null);
 	const shouldFetch = useRef<boolean>(false);
 	const suggestionsRef = useRef<HTMLUListElement>(null);
 	const containerRef = useRef(null);
@@ -43,10 +44,15 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	const { scrollDown, scrollUp } = useUlScroll(suggestionsRef, activeIndex);
 
 	const onSuggestionSelectedHandler = (suggestion: OptionType) => {
-		shouldFetch.current = false;
-		setInputValue(suggestion[fieldNamesMap.value]);
 		setPopoverVisible(false);
 		onSelect?.(suggestion);
+		if (inputRef.current) {
+			const event = new Event("input", { bubbles: true });
+			// 触发 input 事件并修改输入值 ****
+			inputRef.current.value = suggestion[fieldNamesMap.value];
+			inputRef.current.dispatchEvent(event);
+			shouldFetch.current = false;
+		}
 	};
 
 	const onInputKeyDownHandler = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -96,6 +102,11 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [debounceInputValue]);
+
+	useMemo(() => {
+		setInputValue(value || "");
+	}, [value]);
+
 	const setPopoverVisibleFalse = useCallback(() => {
 		setPopoverVisible(false);
 	}, []);
@@ -106,8 +117,9 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	return (
 		<div className={autoCompleteGroupClassNames}>
 			<Input
+				inputRef={inputRef}
 				value={inputValue}
-				onChange={(e) => {
+				onInput={(e: ChangeEvent<HTMLInputElement>) => {
 					if (e.target.value === "") {
 						setPopoverVisible(false);
 					}

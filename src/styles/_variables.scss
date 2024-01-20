@@ -55,6 +55,11 @@ $theme: (
 	dark: $dark,
 );
 
+$padding-mid: 12px;
+$padding-sm: 6px;
+$padding-lg: 24px;
+$padding-base: $padding-mid;
+
 $hover-background-color-amount: 40%;
 // 通用缩放比
 $scale-sm: 0.875 !default;
