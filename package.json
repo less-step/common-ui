@@ -24,7 +24,8 @@
 		"@fortawesome/free-brands-svg-icons": "^6.5.1",
 		"@fortawesome/free-regular-svg-icons": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
-		"@fortawesome/react-fontawesome": "^0.2.0"
+		"@fortawesome/react-fontawesome": "^0.2.0",
+		"react-transition-group": "^4.4.5"
 	},
 	"peerDependencies": {
 		"react": ">=16.8.0",
