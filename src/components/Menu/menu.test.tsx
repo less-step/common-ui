@@ -1,6 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import Menu from "./menu";
+import { render, screen } from "@testing-library/react";
+import Menu from "./index";
 
 describe("测试menu组件是否正常显示", () => {
 	it("测试通用menu", () => {

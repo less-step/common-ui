@@ -1,14 +1,15 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
-library.add(fas);
 export type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
 interface IIconBaseProps {
-	className?: string;
-	style?: CSSProperties;
+	/**
+	 * 主题
+	 * ```
+	 * 	theme类型: "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark"
+	 * ```
+	 *  */
 	theme?: IconModeType;
 }
 export type IconPropsType = FontAwesomeIconProps & IIconBaseProps;

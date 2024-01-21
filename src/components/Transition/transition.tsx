@@ -9,7 +9,7 @@ interface ITransitionProps {
 	onExited?: () => void;
 }
 const displayName = "Transition";
-
+/**动效组件 */
 const Transition: React.FC<ITransitionProps> = (props) => {
 	const { visible, children, type, timeout, onExited } = props;
 	return (

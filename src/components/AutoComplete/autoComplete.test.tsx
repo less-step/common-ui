@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-render-in-setup */
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { AutoComplete } from "./autoComplete";
+import AutoComplete from "./index";
 import { APPNAME } from "../../consts";
 const onChangeHandler = jest.fn();
 const onSelectHanlder = jest.fn();

@@ -1,33 +1,32 @@
 import cls from "classnames";
-import React, {
-	CSSProperties,
-	FunctionComponentElement,
-	ReactNode,
-	useCallback,
-	useContext,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import React, { CSSProperties, FunctionComponentElement, ReactNode, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { useClassNames } from "../../hooks";
 import { MenuContext } from "./menu";
 import MenuItem, { IMenuItemProps } from "./menuItem";
-import Icon from "../Icon/icon";
+import Icon from "../Icon";
 import Transition from "../Transition/transition";
 const displayName = "SubMenu";
 const classNamePrefix = "submenu";
 const baseClassName = classNamePrefix;
 
 export interface ISubMenuProps {
+	/**子菜单键值 */
 	itemKey?: string;
+	/**子项 */
 	children?: ReactNode;
+	/**类名 */
 	className?: string;
+	/**内联样式 */
 	style?: CSSProperties;
+	/**标题 */
 	title: string;
+	/**是否禁用 */
 	disabled?: boolean;
+	/**是否默认展开 */
 	defaultExpanded?: boolean;
 }
 const SubMenuAcceptedChildTypes = [MenuItem.displayName];
+/**子菜单 */
 export const SubMenu: React.FC<ISubMenuProps> = (props) => {
 	const { itemKey, children, className, title, disabled, defaultExpanded, ...restProps } = props;
 	const [expanded, setExpanded] = useState(defaultExpanded as boolean);
@@ -72,14 +71,7 @@ export const SubMenu: React.FC<ISubMenuProps> = (props) => {
 		toggleExpandHandler(e, mode, false);
 	};
 	return (
-		<li
-			className={classNames}
-			key={itemKey}
-			ref={subMenuRef}
-			onMouseEnter={onMouseEnterHandler}
-			onMouseLeave={onMouseLeaveHandler}
-			{...restProps}
-		>
+		<li className={classNames} key={itemKey} ref={subMenuRef} onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler} {...restProps}>
 			<p className={titleClassNames} onClick={onClickHandler}>
 				{title}
 				<Icon icon="angle-down" className={togglerClassNames} theme={togglerTheme} />

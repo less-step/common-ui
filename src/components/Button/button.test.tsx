@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import Button from "./button";
+import Button from "./index";
 import { APPNAME } from "../../consts";
 const clickHanlder = jest.fn();
 const mouseOverHandler = jest.fn();

@@ -1,6 +1,6 @@
+import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { AutoComplete } from "./autoComplete";
-import { mockSuggestions } from "./mock";
+import AutoComplete from "./index";
 const meta = {
 	title: "自动补全",
 	component: AutoComplete,
@@ -23,6 +23,9 @@ export const DefaultAutoComplete: StoryObj<typeof meta> = {
 						};
 					});
 				}),
+	},
+	render(args) {
+		return <AutoComplete {...args} />;
 	},
 };
 DefaultAutoComplete.storyName = "默认自动补全";

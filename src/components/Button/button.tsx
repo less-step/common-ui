@@ -3,9 +3,9 @@ import { SIZE, DEFAULT_SIZE } from "../../consts";
 import { useClassNames } from "../../hooks";
 import cls from "classnames";
 import Transition from "../Transition/transition";
-import Icon from "../Icon/icon";
+import Icon from "../Icon";
 type TBtnType = "link" | "primary" | "default";
-interface IButtonBaseProps {
+export interface IButtonBaseProps {
 	/**按钮类型 */
 	type?: TBtnType;
 	/**是否禁用 */
@@ -29,14 +29,7 @@ type IButtonProps = Partial<IButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLEle
 const displayName = "Button";
 const classNamePrefix = "btn";
 const baseClassName = classNamePrefix;
-/**
- * ### 页面中最常见的元素按钮
- * ```js
- * 	import Button from 'less-step'
- * ```
- * @param props
- * @returns
- */
+/**按钮组件 */
 export const Button: React.FC<IButtonProps> = (props) => {
 	const { type, disabled, size, className, children, danger, href, loading, ...restProps } = props;
 	const originalClassNames = useMemo(() => {

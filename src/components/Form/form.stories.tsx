@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { Form, FormRef } from "./form";
-import Input from "../Input/input";
-import { AutoComplete } from "../AutoComplete/autoComplete";
-import Button from "../Button/button";
+import type { FormRef } from "./index";
+import Form from "./index";
+import Input from "../Input/index";
+import AutoComplete from "../AutoComplete";
+import Button from "../Button";
 const meta = {
 	title: "表单",
 	component: Form,

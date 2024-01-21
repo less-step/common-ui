@@ -1,7 +1,7 @@
 import cls from "classnames";
 import React, { DragEvent, HtmlHTMLAttributes, useCallback, useMemo, useRef, useState } from "react";
 import { InOutEventConfig, useClassNames, useMouseInOut } from "../../hooks";
-import Icon from "../Icon/icon";
+import Icon from "../Icon";
 export interface DraggerBasePropsType {
 	onFiles: (fileList: File[]) => void;
 	children?: React.ReactNode;

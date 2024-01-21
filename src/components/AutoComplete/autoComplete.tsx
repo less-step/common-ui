@@ -1,28 +1,37 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Input, { InputProps } from "../Input/input";
+import React, { ChangeEvent, useCallback, useMemo, useRef, useState } from "react";
+import Input, { InputProps } from "../Input";
 import { useClassNames, useClickOutsize, useDebounce, useUlScroll } from "../../hooks";
 import cls from "classnames";
 import Transition from "../Transition/transition";
-import Icon from "../Icon/icon";
+import Icon from "../Icon";
 interface OptionType {
+	/**选项标签 */
 	label?: string | React.ReactNode;
+	/**选项值 */
 	value?: string;
 	[key: string]: any;
 }
+
+/**option的映射方式 */
 interface FieldNamesType {
+	/**标签映射字段 */
 	label: string;
+	/**实际值映射字段 */
 	value: string;
 }
 export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
 	/** 获取suggestions的回调函数 */
 	fetchSuggestions: (keyWord: string) => OptionType[] | Promise<OptionType[]>;
+	/**选中回调函数 */
 	onSelect?: (suggestion: OptionType) => void;
+	/**option的映射方式 */
 	fieldNames?: FieldNamesType;
 }
 
 const displayName = "AutoComplete";
 const classNamePrefix = "auto-complete";
 
+/**自动补全组件 */
 export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 	const { fetchSuggestions, onSelect, className, onChange, value, fieldNames, onKeyDown, onInput, ...restProps } = props;
 	const inputRef = useRef<HTMLInputElement>(null);

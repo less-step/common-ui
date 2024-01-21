@@ -2,11 +2,11 @@ import axios from "axios";
 import { AxiosHeaders } from "axios";
 import cls from "classnames";
 import React, { HTMLAttributes, ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { useClassNames, useDebounce } from "../../hooks";
-import Button from "../Button/button";
+import { useClassNames } from "../../hooks";
+import Button from "../Button";
 import { uniqueId } from "lodash";
 import { Percentage } from "../Percentage/percentage";
-import Icon from "../Icon/icon";
+import Icon from "../Icon";
 import { Dragger } from "./dragger";
 import Transition from "../Transition/transition";
 interface AnyObject {

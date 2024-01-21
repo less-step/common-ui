@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./button";
-import mdx from "./button.mdx";
 import React from "react";
+import { Meta, StoryObj } from "@storybook/react";
+import Button from "./index";
+import mdx from "./button.mdx";
 const meta = {
 	title: "按钮",
 	component: Button,
@@ -10,7 +10,6 @@ const meta = {
 			page: mdx,
 		},
 	},
-	// tags: ["autodocs"],
 	args: {
 		children: "按钮",
 	},

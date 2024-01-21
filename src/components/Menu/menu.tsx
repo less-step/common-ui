@@ -3,7 +3,7 @@ import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import React from "react";
 import MenuItem, { IMenuItemProps } from "./menuItem";
-import SubMenu, { ISubMenuProps } from "./subMenu";
+import SubMenu from "./subMenu";
 type MenuMode = "vertical" | "horizontal";
 
 interface IMenuBaseProps {
@@ -29,10 +29,7 @@ export const MenuContext = React.createContext<{
 	mode: "horizontal",
 });
 const MenuAcceptedChildTypes = [MenuItem.displayName, SubMenu.displayName];
-export const Menu: React.FC<IMenuProps> & {
-	Item: FunctionComponent<IMenuItemProps>;
-	SubMenu: FunctionComponent<ISubMenuProps>;
-} = (props) => {
+export const Menu: React.FC<IMenuProps> = (props) => {
 	const { children, defaultActiveKey, className, mode, onSelect, style, ...restProps } = props;
 	const [activeKey, setActiveKey] = useState(defaultActiveKey);
 	const originalClassNames = cls(baseClassName, {
@@ -65,6 +62,5 @@ Menu.displayName = displayName;
 Menu.defaultProps = {
 	mode: "horizontal",
 };
-Menu.Item = MenuItem;
-Menu.SubMenu = SubMenu;
+
 export default Menu;

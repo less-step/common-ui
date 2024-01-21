@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Menu } from "./menu";
 import React from "react";
+import { Meta, StoryObj } from "@storybook/react";
+import Menu from "./index";
 const meta = {
 	title: "菜单",
 	component: Menu,

@@ -3,8 +3,8 @@ import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import { FormContext } from "./form";
 import { FieldDetail } from "../../hooks/useStore";
+import type { SomeRequired } from "../../consts/types";
 
-type SomeRequired<T, K extends keyof T> = Required<Pick<T, K>> & Omit<T, K>;
 export interface FormItemBaseProps extends Partial<FieldDetail> {
 	children?: ReactNode;
 	/**初始值 */
@@ -25,6 +25,7 @@ type FormItemProps = FormItemBaseProps & HtmlHTMLAttributes<HTMLDivElement>;
 const displayName = "FormItem";
 const classNamePrefix = "form-item";
 const baseClassName = classNamePrefix;
+/**表单项组件 */
 export const FormItem: React.FC<FormItemProps> = (props) => {
 	const { initialValue, name, children, className, label, rules, valuePropName, trigger, getValueProp, validate, ...restProps } = props as SomeRequired<
 		FormItemProps,
