@@ -176,6 +176,11 @@
 		"dist"
 	],
 	"private": false,
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run lint && npm run test"
+		}
+	},
 	"scripts": {
 		"build": "node scripts/build.js",
 		"build-storybook": "storybook build",
@@ -190,11 +195,6 @@
 		"test": "cross-env CI=true node scripts/test.js",
 		"prepublish": "npm run lint && npm run test && npm run build-component",
 		"release": "npm run prepublish && npm publish"
-	},
-	"husky":{
-		"hooks":{
-			"pre-commit": "npm run lint && npm run test"
-		}
 	},
 	"version": "0.1.3"
 }
