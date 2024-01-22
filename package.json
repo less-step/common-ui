@@ -190,5 +190,5 @@
 		"prepublish": "npm run lint && npm run test:nowatch && npm run build-component",
 		"release": "npm run prepublish && npm publish"
 	},
-	"version": "0.1.1"
+	"version": "0.1.2"
 }
