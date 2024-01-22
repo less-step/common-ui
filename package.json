@@ -73,6 +73,7 @@
 		"file-loader": "^6.2.0",
 		"fs-extra": "^10.0.0",
 		"html-webpack-plugin": "^5.5.0",
+		"husky": "^8.0.3",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^27.4.3",
 		"jest-resolve": "^27.4.2",
@@ -185,10 +186,15 @@
 		"build-component": "npm run clean:dist && npm run build-ts && npm run build-sass",
 		"start": "node scripts/start.js",
 		"storybook": "storybook dev -p 6006",
-		"test": "node scripts/test.js",
-		"test:nowatch": "cross-env CI=true node scripts/test.js",
-		"prepublish": "npm run lint && npm run test:nowatch && npm run build-component",
+		"test:watch": "node scripts/test.js",
+		"test": "cross-env CI=true node scripts/test.js",
+		"prepublish": "npm run lint && npm run test && npm run build-component",
 		"release": "npm run prepublish && npm publish"
 	},
-	"version": "0.1.2"
+	"husky":{
+		"hooks":{
+			"pre-commit": "npm run lint && npm run test"
+		}
+	},
+	"version": "0.1.3"
 }
