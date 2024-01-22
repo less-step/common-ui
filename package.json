@@ -189,8 +189,8 @@
 		"storybook": "storybook dev -p 6006",
 		"test:watch": "node scripts/test.js",
 		"test": "cross-env CI=true node scripts/test.js",
-		"prepublish": "npm run lint && npm run test && npm run build-component",
-		"release": "npm run prepublish && npm publish"
+		"prepublishOnly": "npm run lint && npm run test && npm run build-component",
+		"release": "npm publish"
 	},
 	"husky": {
 		"hooks": {
