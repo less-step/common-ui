@@ -1,5 +1,5 @@
 {
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"babel": {
 		"presets": [
 			"react-app"
@@ -190,11 +190,7 @@
 		"test:watch": "node scripts/test.js",
 		"test": "cross-env CI=true node scripts/test.js",
 		"prepublishOnly": "npm run lint && npm run test && npm run build-component",
-		"release": "npm publish"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint && npm run test"
-		}
+		"release": "npm publish",
+		"prepare": "husky install"
 	}
 }
