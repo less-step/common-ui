@@ -2,6 +2,9 @@ import React from "react";
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+library.add(fas);
 export type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
 interface IIconBaseProps {
 	/**

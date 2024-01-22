@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useState } from "react";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import React from "react";

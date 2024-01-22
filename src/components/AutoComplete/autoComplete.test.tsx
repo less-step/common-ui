@@ -19,7 +19,7 @@ describe("测试自动补全组件", () => {
 			<AutoComplete fetchSuggestions={() => [{ label: 1, value: "1" }]} placeholder="auto-complete" onChange={onChangeHandler} className="jss-auto-complete helloworld" />,
 		);
 		const input = screen.getByPlaceholderText("auto-complete");
-		fireEvent.change(input, { target: { value: "1" } });
+		fireEvent.input(input, { target: { value: "1" } });
 		expect(onChangeHandler).toBeCalled();
 		await waitFor(() => {
 			expect(screen.getByLabelText("ul")).toBeTruthy();
@@ -39,7 +39,7 @@ describe("测试自动补全组件", () => {
 			/>,
 		);
 		const input = screen.getByPlaceholderText("auto-complete");
-		fireEvent.change(input, { target: { value: "1" } });
+		fireEvent.input(input, { target: { value: "1" } });
 		await waitFor(() => {
 			expect(screen.getByLabelText("ul")).toBeTruthy();
 		});
@@ -63,7 +63,7 @@ describe("测试自动补全组件", () => {
 			/>,
 		);
 		const input = screen.getByPlaceholderText("auto-complete");
-		fireEvent.change(input, { target: { value: "1" } });
+		fireEvent.input(input, { target: { value: "1" } });
 		await waitFor(() => {
 			expect(screen.getByLabelText("ul")).toBeTruthy();
 		});
@@ -87,7 +87,7 @@ describe("测试自动补全组件", () => {
 			/>,
 		);
 		const input = screen.getByPlaceholderText("auto-complete");
-		fireEvent.change(input, { target: { value: "1" } });
+		fireEvent.input(input, { target: { value: "1" } });
 		await waitFor(() => {
 			expect(screen.getByLabelText("ul")).toBeTruthy();
 		});
