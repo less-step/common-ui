@@ -5,7 +5,17 @@ const meta = {
 	title: "自动补全",
 	component: AutoComplete,
 	tags: ["autodocs"],
-	argTypes: {},
+	argTypes: {
+		icon: {
+			control: "text",
+		},
+		prepend: {
+			control: "text",
+		},
+		append: {
+			control: "text",
+		},
+	},
 } satisfies Meta<typeof AutoComplete>;
 
 export default meta;

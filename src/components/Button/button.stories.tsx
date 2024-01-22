@@ -1,17 +1,18 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import Button from "./index";
-import mdx from "./button.mdx";
+
 const meta = {
 	title: "按钮",
 	component: Button,
-	parameters: {
-		docs: {
-			page: mdx,
-		},
-	},
+	parameters: {},
 	args: {
 		children: "按钮",
+	},
+	argTypes: {
+		children: {
+			control: "text",
+		},
 	},
 } satisfies Meta<typeof Button>;
 export default meta;

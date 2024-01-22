@@ -1,9 +1,9 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { IconProp, library } from "@fortawesome/fontawesome-svg-core";
 library.add(fas);
 export type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
 interface IIconBaseProps {
@@ -14,8 +14,11 @@ interface IIconBaseProps {
 	 * ```
 	 *  */
 	theme?: IconModeType;
+	icon: string;
+	className?: string;
+	style?: CSSProperties;
 }
-export type IconPropsType = FontAwesomeIconProps & IIconBaseProps;
+type IconPropsType = Omit<FontAwesomeIconProps, "icon"> & IIconBaseProps;
 const displayName = "Icon";
 const classNamePrefix = "icon";
 const baseClassName = classNamePrefix;
@@ -25,7 +28,7 @@ const Icon: React.FC<IconPropsType> = (props) => {
 		[`${classNamePrefix}-${theme}`]: theme,
 	});
 	const classNames = cls(useClassNames(originClassNames), className);
-	return <FontAwesomeIcon icon={icon} className={classNames} {...restProps} />;
+	return <FontAwesomeIcon icon={icon as IconProp} className={classNames} {...restProps} />;
 };
 
 Icon.displayName = displayName;

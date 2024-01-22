@@ -1,7 +1,4 @@
 import type { Preview } from "@storybook/react";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
-library.add(fas);
 import "../src/styles/index.scss";
 const preview: Preview = {
 	parameters: {
@@ -10,6 +7,11 @@ const preview: Preview = {
 			matchers: {
 				color: /(background|color)$/i,
 				date: /Date$/i,
+			},
+		},
+		options: {
+			storySort: {
+				order: ["Less-step 组件库", "按钮", "图标", "输入框", "自动补全", "表单", "百分比", "上传"],
 			},
 		},
 	},
