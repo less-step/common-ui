@@ -69,7 +69,7 @@ export const Input: React.FC<InputProps> = (props) => {
 		<span className={inputGroupClassNames}>
 			{prepend && <span className={inputPrependClassNames}>{prepend}</span>}
 			<span className={inputWrapperClassNames} tabIndex={-1}>
-				{icon && <Icon icon={icon} className={inputIconClassNames} />}
+				{icon && <Icon icon={icon as string} className={inputIconClassNames} />}
 				<input ref={inputRef} type="text" placeholder={placeholder} className={inputClassNames} onChange={onChange} {...resetProps} />
 			</span>
 			{append && <span className={inputAppendClassNames}>{append}</span>}
