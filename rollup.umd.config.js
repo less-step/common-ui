@@ -11,7 +11,7 @@ const tsconfigOverride = {
 	},
 	exclude: ["src/**/*.stories.tsx", "src/**/*.test.tsx", "src/App.tsx", "src/index.tsx", "src/react-app-env.d.ts", "src/reportWebVitals.ts", "src/setupTests.ts"],
 };
-export default {
+const config = {
 	input: "src/component.ts",
 	output: {
 		name: "LessStepCommon",
@@ -37,3 +37,4 @@ export default {
 	],
 	external: ["react", "react-dom", "axios"],
 };
+export default config;

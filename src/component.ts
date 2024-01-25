@@ -7,3 +7,4 @@ export { default as Upload } from "./components/Upload";
 export { default as Percentage } from "./components/Percentage";
 export { default as Form } from "./components/Form";
 export { default as Icon } from "./components/Icon";
+export { default as Menu } from "./components/Menu";
