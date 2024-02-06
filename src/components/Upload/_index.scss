@@ -3,7 +3,7 @@ $dragger: "dragger";
 .#{$app-name} {
 	&-#{$upload} {
 		&-trigger {
-			display: inline-block;
+			display: block;
 			cursor: pointer;
 			&:hover {
 				box-shadow: $box-shadow-default;

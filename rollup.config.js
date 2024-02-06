@@ -7,9 +7,11 @@ import exclude from "rollup-plugin-exclude-dependencies-from-bundle";
 const tsconfigOverride = {
 	compilerOptions: {
 		declaration: true,
+		baseUrl: ".",
 	},
 	exclude: ["src/**/*.stories.tsx", "src/**/*.test.tsx", "src/App.tsx", "src/index.tsx", "src/react-app-env.d.ts", "src/reportWebVitals.ts", "src/setupTests.ts"],
 };
+
 const config = {
 	input: "src/component.ts",
 	output: {
