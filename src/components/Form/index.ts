@@ -1,4 +1,4 @@
-import { Form as FormComponent, FormRef } from "./form";
+import { Form as FormComponent, FormRef, FormProps } from "./form";
 import { FormItem } from "./form-item";
 
 export type TransFormType = typeof FormComponent & {
@@ -8,4 +8,4 @@ export type TransFormType = typeof FormComponent & {
 const TransForm = FormComponent as TransFormType;
 TransForm.Item = FormItem;
 export default TransForm;
-export type { FormRef };
+export type { FormRef, FormProps };

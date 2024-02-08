@@ -21,6 +21,10 @@
 			color: $primary;
 			border-color: $primary;
 		}
+		&.circle {
+			border-radius: 50% !important;
+			padding: $btn-padding-y !important;
+		}
 		&-primary {
 			color: $white;
 			background-color: $primary;
@@ -66,11 +70,17 @@
 			font-size: $font-size-lg;
 			padding: $btn-padding-y-lg $btn-padding-x-lg;
 			border-radius: $btn-border-radius-lg;
+			&.circle {
+				padding: $btn-padding-y-lg !important;
+			}
 		}
 		&-sm {
 			font-size: $font-size-sm;
 			padding: $btn-padding-y-sm $btn-padding-x-sm;
 			border-radius: $btn-border-radius-sm;
+			&.circle {
+				padding: $btn-padding-y-sm !important;
+			}
 		}
 		&:disabled,
 		&.disabled {

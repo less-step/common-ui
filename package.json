@@ -1,5 +1,5 @@
 {
-	"version": "0.1.6",
+	"version": "0.2.1",
 	"babel": {
 		"presets": [
 			"react-app"
@@ -23,7 +23,6 @@
 		"@fortawesome/free-regular-svg-icons": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
-		"@types/lodash-es": "^4.17.12",
 		"async-validator": "^4.2.5",
 		"axios": "^1.6.5",
 		"classnames": "^2.5.1",
@@ -36,6 +35,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
+		"@types/lodash-es": "^4.17.12",
 		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
 		"@babel/preset-env": "^7.23.9",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

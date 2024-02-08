@@ -1,4 +1,4 @@
-import OriginMenu from "./menu";
+import OriginMenu, { MenuProps } from "./menu";
 import MenuItem from "./menuItem";
 import SubMenu from "./subMenu";
 
@@ -13,3 +13,4 @@ const Menu = OriginMenu as MenuType;
 Menu.Item = MenuItem;
 Menu.SubMenu = SubMenu;
 export default Menu;
+export type { MenuProps };

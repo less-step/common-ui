@@ -1,0 +1,12 @@
+.#{$app-name} {
+	&-space {
+		display: inline-flex;
+		gap: $padding-base;
+		&-sm {
+			gap: $padding-sm;
+		}
+		&-lg {
+			gap: $padding-lg;
+		}
+	}
+}

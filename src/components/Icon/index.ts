@@ -1,3 +1,3 @@
-import Icon, { IconModeType } from "./icon";
+import Icon, { IconModeType, IconProps } from "./icon";
 export default Icon;
-export type { IconModeType };
+export type { IconModeType, IconProps };

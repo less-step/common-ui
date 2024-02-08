@@ -6,7 +6,7 @@ import MenuItem, { IMenuItemProps } from "./menuItem";
 import SubMenu from "./subMenu";
 type MenuMode = "vertical" | "horizontal";
 
-interface IMenuBaseProps {
+interface MenuBaseProps {
 	children?: ReactNode;
 	className?: string;
 	style?: CSSProperties;
@@ -14,7 +14,7 @@ interface IMenuBaseProps {
 	mode?: MenuMode;
 	onSelect?: (selectedKey: string) => void;
 }
-type IMenuProps = IMenuBaseProps;
+export type MenuProps = MenuBaseProps;
 
 const displayName = "Menu";
 const classNamePrefix = "menu";
@@ -29,7 +29,7 @@ export const MenuContext = React.createContext<{
 	mode: "horizontal",
 });
 const MenuAcceptedChildTypes = [MenuItem.displayName, SubMenu.displayName];
-export const Menu: React.FC<IMenuProps> = (props) => {
+export const Menu: React.FC<MenuProps> = (props) => {
 	const { children, defaultActiveKey, className, mode, onSelect, style, ...restProps } = props;
 	const [activeKey, setActiveKey] = useState(defaultActiveKey);
 	const originalClassNames = cls(baseClassName, {

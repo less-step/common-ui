@@ -6,7 +6,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { IconProp, library } from "@fortawesome/fontawesome-svg-core";
 library.add(fas);
 export type IconModeType = "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
-interface IIconBaseProps {
+interface IconBaseProps {
 	/**
 	 * 主题
 	 * ```
@@ -18,17 +18,17 @@ interface IIconBaseProps {
 	className?: string;
 	style?: CSSProperties;
 }
-type IconPropsType = Omit<FontAwesomeIconProps, "icon"> & IIconBaseProps;
+export type IconProps = Omit<FontAwesomeIconProps, "icon"> & IconBaseProps;
 const displayName = "Icon";
 const classNamePrefix = "icon";
 const baseClassName = classNamePrefix;
-const Icon: React.FC<IconPropsType> = (props) => {
+const Icon: React.FC<IconProps> = (props) => {
 	const { className, icon, theme, ...restProps } = props;
 	const originClassNames = cls(baseClassName, {
 		[`${classNamePrefix}-${theme}`]: theme,
 	});
 	const classNames = cls(useClassNames(originClassNames), className);
-	return <FontAwesomeIcon icon={icon as IconProp} className={classNames} {...restProps} />;
+	return <FontAwesomeIcon icon={icon as IconProp} className={classNames} {...restProps} style={{ width: "1em", height: "1em" }} />;
 };
 
 Icon.displayName = displayName;

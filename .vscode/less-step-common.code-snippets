@@ -1,0 +1,38 @@
+{
+	"组件模板": {
+		"prefix": "componentTemplate",
+		"body": [
+			"import { CSSProperties, ReactNode } from \"react\";",
+			"import cls from \"classnames\";",
+			"import { useClassNames } from \"src/hooks\";",
+			"import { SIZE } from \"src/consts\";",
+			"interface ${1:Component}Props {",
+			"	children?: ReactNode;",
+			"	className?: string;",
+			"	style?: CSSProperties;",
+			"	size? : SIZE"
+			"}",
+			"",
+			"const displayName = \"${1:Component}\";",
+			"const classNamePrefix = \"${2:classNamePrefix}\";",
+			"const baseClassName = classNamePrefix;",
+			"",
+			"const ${1:Component}: React.FC<${1:Component}Props> = (props) => {",
+			"	const { className, style, children, size, ...rest } = props;",
+			"	const ${2:classNamePrefix}ClassName = useClassNames(cls(className, baseClassName,{",
+			"			[`\\${baseClassName}-\\${size}`]: size !== \"mid\",",
+			"		}), className ? className.split(\" \") : []);",
+			"	return (",
+			"		<div className={${2:classNamePrefix}ClassName} {...rest}>",
+			"			{children}",
+			"		</div>",
+			"	);",
+			"};",
+			"${1:Component}.displayName = displayName;",
+			"${1:Component}.defaultProps = {",
+			"    ",
+			"}"
+		],
+		"description": "组件模板"
+	}
+}

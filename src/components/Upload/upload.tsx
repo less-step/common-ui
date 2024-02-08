@@ -58,7 +58,7 @@ export interface UploadBaseProps {
 	defaultFileList?: UploadFileType[];
 }
 
-type UploadProps = UploadBaseProps & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
+export type UploadProps = UploadBaseProps & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
 
 const displayName = "Upload";
 const classNamePrefix = "upload";

@@ -5,7 +5,7 @@ import cls from "classnames";
 import Transition from "../Transition/transition";
 import Icon from "../Icon";
 type TBtnType = "link" | "primary" | "default";
-export interface IButtonBaseProps {
+export interface ButtonBaseProps {
 	/**按钮类型 */
 	type?: TBtnType;
 	/**是否禁用 */
@@ -24,14 +24,16 @@ export interface IButtonBaseProps {
 	href?: string;
 	/**loading */
 	loading?: boolean;
+	/* 形状 */
+	shape?: "circle" | "rect";
 }
-type IButtonProps = Partial<IButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLElement>, "type">>;
+export type ButtonProps = Partial<ButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLElement>, "type">>;
 const displayName = "Button";
 const classNamePrefix = "btn";
 const baseClassName = classNamePrefix;
 /**按钮组件 */
-export const Button: React.FC<IButtonProps> = (props) => {
-	const { type, disabled, size, className, children, danger, href, loading, ...restProps } = props;
+export const Button: React.FC<ButtonProps> = (props) => {
+	const { type, disabled, size, className, children, danger, href, loading, shape, ...restProps } = props;
 	const originalClassNames = useMemo(() => {
 		return cls(baseClassName, className, {
 			[`${classNamePrefix}-${type}`]: type,
@@ -39,8 +41,9 @@ export const Button: React.FC<IButtonProps> = (props) => {
 			[`${classNamePrefix}-${size}`]: size !== DEFAULT_SIZE,
 			disabled,
 			loading,
+			circle: shape === "circle",
 		});
-	}, [type, size, disabled, danger, loading, className]);
+	}, [type, size, disabled, danger, loading, className, shape]);
 	const classNames = useClassNames(originalClassNames, className ? className.split(" ") : []);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const [isShadowShow, setIsShadowShow] = useState(false);
@@ -78,6 +81,7 @@ export const Button: React.FC<IButtonProps> = (props) => {
 
 Button.defaultProps = {
 	size: DEFAULT_SIZE,
+	shape: "rect",
 };
 
 Button.displayName = displayName;

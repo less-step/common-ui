@@ -1,2 +1,3 @@
-import { Percentage } from "./percentage";
+import { Percentage, type PercentageProps } from "./percentage";
 export default Percentage;
+export { PercentageProps };

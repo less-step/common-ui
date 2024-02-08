@@ -1,0 +1,73 @@
+.#{$app-name} {
+	$controller-width: 2px;
+	&-modal-container {
+		width: 500px;
+		height: 500px;
+		position: absolute;
+		inset: 0 0 0 0;
+		padding: $controller-width;
+		user-select: none;
+	}
+	&-modal {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		::-webkit-scrollbar {
+			width: 6px; /* 滚动条宽度 */
+		}
+		::-webkit-scrollbar-track {
+			background-color: transparent;
+		}
+		.header {
+			background-color: $border-color;
+			cursor: move;
+			padding: $padding-sm;
+		}
+		.content {
+			flex: 1;
+			background-color: $white;
+			overflow: auto;
+			padding: $padding-base;
+		}
+	}
+	&-modal-size-controller {
+		background-color: $border-color;
+		position: absolute;
+		&:hover {
+			z-index: 1;
+		}
+		&.left {
+			width: $controller-width;
+			height: 100%;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			cursor: e-resize;
+		}
+		&.right {
+			width: $controller-width;
+			height: 100%;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			cursor: w-resize;
+		}
+		&.top {
+			height: $controller-width;
+			width: 100%;
+			top: 0;
+			left: 0;
+			right: 0;
+			cursor: n-resize;
+		}
+		&.bottom {
+			height: $controller-width;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			cursor: s-resize;
+		}
+	}
+}

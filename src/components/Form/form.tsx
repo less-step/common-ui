@@ -15,7 +15,7 @@ export interface FormBaseProps {
 	onFinishFail?: (errors: ErrorResult) => void;
 }
 
-type FormProps = FormBaseProps & HtmlHTMLAttributes<HTMLFormElement>;
+export type FormProps = FormBaseProps & HtmlHTMLAttributes<HTMLFormElement>;
 const displayName = "Form";
 const classNamePrefix = "form";
 const baseClassName = classNamePrefix;

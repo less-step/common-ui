@@ -3,7 +3,7 @@ import { useClassNames } from "../../hooks";
 import cls from "classnames";
 import Icon, { IconModeType } from "../Icon";
 export type PercentageModeType = IconModeType;
-export interface PercentageBasePropsType {
+export interface PercentageBaseProps {
 	/**百分比 */
 	rate: number;
 	/**高度 */
@@ -13,12 +13,12 @@ export interface PercentageBasePropsType {
 	/**是否加载状态 */
 	loading?: boolean;
 }
-type PercentagePropsType = PercentageBasePropsType & HtmlHTMLAttributes<HTMLElement>;
+export type PercentageProps = PercentageBaseProps & HtmlHTMLAttributes<HTMLElement>;
 const displayName = "Percentage";
 const classNamePrefix = "percentage";
 const baseClassName = classNamePrefix;
 /**百分比组件 */
-export const Percentage: FC<PercentagePropsType> = (props) => {
+export const Percentage: FC<PercentageProps> = (props) => {
 	const { className, rate, height, style, theme, loading, ...restProps } = props;
 	const percentageClassName = useClassNames(cls(baseClassName, className), className ? className.split(" ") : []);
 	const percentageGroupClassName = useClassNames(cls(`${classNamePrefix}-group`));
