@@ -4,9 +4,8 @@
 		width: 500px;
 		height: 500px;
 		position: absolute;
-		inset: 0 0 0 0;
-		padding: $controller-width;
 		user-select: none;
+		box-shadow: $box-shadow-default;
 	}
 	&-modal {
 		width: 100%;
@@ -22,17 +21,22 @@
 		.header {
 			background-color: $border-color;
 			cursor: move;
-			padding: $padding-sm;
+			padding: $padding-base;
+
+			border-top-right-radius: $border-radius-lg;
+			border-top-left-radius: $border-radius-lg;
 		}
 		.content {
 			flex: 1;
 			background-color: $white;
 			overflow: auto;
 			padding: $padding-base;
+			border-bottom-right-radius: $border-radius-lg;
+			border-bottom-left-radius: $border-radius-lg;
 		}
 	}
 	&-modal-size-controller {
-		background-color: $border-color;
+		background-color: transparent;
 		position: absolute;
 		&:hover {
 			z-index: 1;
