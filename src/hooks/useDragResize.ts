@@ -9,7 +9,7 @@ export const useDragResize = (props: useDragProps & { minHeight: number; minWidt
 		if (dragEntity.current) {
 			const offset = getOffset(dragEntity.current);
 			const limitX = {
-				min: -offset,
+				min: -offset.left,
 				max: offset.width - minWidth,
 			};
 			const offsetX = getLimitValue(mouseOffset.x, limitX.min, limitX.max);
