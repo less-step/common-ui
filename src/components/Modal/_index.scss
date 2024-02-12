@@ -1,11 +1,28 @@
 .#{$app-name} {
 	$controller-width: 2px;
+	&-modal-minimal {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 160px;
+		height: 90px;
+		cursor: pointer;
+		border: 1px solid transparent;
+		border-radius: $border-radius-lg;
+		transition: transform 0.25s;
+		background-color: $white;
+		&:hover {
+			transform: scale(1.1) translateY(10px);
+			box-shadow: 0 0 5px 1px lighten($primary, 30%);
+		}
+	}
 	&-modal-container {
 		width: 500px;
 		height: 500px;
 		position: absolute;
 		user-select: none;
-		box-shadow: $box-shadow-default;
+		backdrop-filter: blur(10px);
+		border: 2px solid $border-color;
 	}
 	&-modal {
 		width: 100%;
@@ -22,17 +39,15 @@
 			background-color: $border-color;
 			cursor: move;
 			padding: $padding-base;
-
-			border-top-right-radius: $border-radius-lg;
-			border-top-left-radius: $border-radius-lg;
+			.header-title {
+				opacity: 1;
+			}
 		}
 		.content {
 			flex: 1;
 			background-color: $white;
 			overflow: auto;
 			padding: $padding-base;
-			border-bottom-right-radius: $border-radius-lg;
-			border-bottom-left-radius: $border-radius-lg;
 		}
 	}
 	&-modal-size-controller {

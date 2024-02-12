@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Modal, ModalProps } from "./modal";
 import Form from "../Form";
 import Space from "../Space";
 import Input from "../Input";
+import Button from "../Button";
 const meta = {
 	title: "弹窗",
 	component: Modal,
@@ -13,9 +14,11 @@ const meta = {
 export default meta;
 
 function DefaultModalComponent(props: ModalProps) {
+	const [open, setOpen] = useState(false);
 	return (
-		<div style={{ width: "800px", height: "100vh", position: "relative", backgroundColor: "pink" }}>
-			<Modal {...props}>
+		<div style={{ width: "800px", height: "100vh", position: "relative" }}>
+			<Button onClick={() => setOpen(true)}>打开弹窗</Button>
+			<Modal {...props} open={open} onClose={() => setOpen(false)}>
 				<Space direction="column">
 					<Form>
 						<Form.Item label="姓名" name="name" rules={[{ required: true }]}>
@@ -27,6 +30,9 @@ function DefaultModalComponent(props: ModalProps) {
 						<Form.Item label="性别" name="gender">
 							<Input placeholder="请输入性别" />
 						</Form.Item>
+						<Button danger type="primary">
+							删除
+						</Button>
 					</Form>
 				</Space>
 			</Modal>
@@ -35,9 +41,7 @@ function DefaultModalComponent(props: ModalProps) {
 }
 
 export const DefaultModal: StoryObj<typeof meta> = {
-	args: {
-		open: true,
-	},
+	args: {},
 	render(args) {
 		return <DefaultModalComponent {...args} />;
 	},
