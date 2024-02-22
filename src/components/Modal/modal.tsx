@@ -3,7 +3,6 @@ import cls from "classnames";
 import { useClassNames } from "../../hooks";
 import Transition from "../Transition";
 import Icon from "../Icon";
-import Button from "../Button";
 import Space from "../Space";
 import { useDragResize } from "../../hooks/useDragResize";
 import { useDragMove } from "../../hooks/useDragMove";

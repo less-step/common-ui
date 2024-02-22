@@ -111,9 +111,9 @@ function queryNodeByPath<T extends Record<string, any>>(path: string, treeData: 
 		return pos[index].children;
 	}, treeData)[indexList.length - 1];
 }
-
-export default {
+const utils = {
 	queryNodeByKey,
 	queryNodeByPath,
 	queryAllNode: queryAllNodeByDFS,
 };
+export default utils;

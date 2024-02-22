@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/react";
 import Draggable from "./Draggable";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import DndList from "./dnd-list";
 const meta = {
 	title: "拖动",
 	component: Draggable,
