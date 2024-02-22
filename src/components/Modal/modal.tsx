@@ -9,6 +9,7 @@ import { useDragResize } from "../../hooks/useDragResize";
 import { useDragMove } from "../../hooks/useDragMove";
 import html2canvas from "html2canvas";
 export interface ModalProps {
+	title?: string;
 	open?: boolean;
 	minimal?: boolean;
 	onClose?: () => void;
@@ -23,7 +24,7 @@ const classNamePrefix = "modal";
 const baseClassName = classNamePrefix;
 
 export const Modal = React.forwardRef<ModalRef, ModalProps>((props, ref) => {
-	const { open, onClose, minHeight, minWidth, children } = props as Required<ModalProps>;
+	const { open, onClose, minHeight, minWidth, children, title } = props as Required<ModalProps>;
 	const [minimal, setMinimal] = useState(false);
 	const modalContainerClassName = useClassNames(cls(`${classNamePrefix}-container`));
 	const modalClassName = useClassNames(cls(baseClassName));
@@ -86,35 +87,34 @@ export const Modal = React.forwardRef<ModalRef, ModalProps>((props, ref) => {
 					<div className={cls(modalSizeControllerClassName, "bottom")} ref={bottomHandle}></div>
 					<div className={modalClassName}>
 						<div className="header" ref={dragMoveHandle}>
-							<Space size="sm">
-								<Button
-									shape="circle"
-									size="sm"
-									onClick={(e) => {
-										e.stopPropagation();
-										e.preventDefault();
-										onClose();
-									}}
-								>
-									<Icon icon="close" theme="danger" />
-								</Button>
-								<Button
-									shape="circle"
-									size="sm"
-									onClick={(e) => {
-										e.stopPropagation();
-										e.preventDefault();
-										setMinimal(true);
-									}}
-								>
-									<Icon icon="minus" />
-								</Button>
-								{isDraggingMove && "draggingMove"}
-								{isDraggingLeftResize.isLeftDragging && "draggingResize-left"}
-								{isDraggingLeftResize.isRightDragging && "draggingResize-right"}
-								{isDraggingLeftResize.isTopDragging && "draggingResize-top"}
-								{isDraggingLeftResize.isBottomDragging && "draggingResize-bottom"}
-							</Space>
+							<div className="title">{title}</div>
+							<div className="options">
+								<Space size="sm">
+									<div className="option-item primary">
+										<Icon icon="coffee" />
+									</div>
+									<div className="option-item minus">
+										<Icon
+											icon="minus"
+											onClick={(e) => {
+												e.stopPropagation();
+												e.preventDefault();
+												setMinimal(true);
+											}}
+										/>
+									</div>
+									<div className="option-item close">
+										<Icon
+											icon="close"
+											onClick={(e) => {
+												e.stopPropagation();
+												e.preventDefault();
+												onClose();
+											}}
+										/>
+									</div>
+								</Space>
+							</div>
 						</div>
 						<div className="content">{children}</div>
 					</div>

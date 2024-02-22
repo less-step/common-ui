@@ -47,7 +47,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
 	const classNames = useClassNames(originalClassNames, className ? className.split(" ") : []);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const [isShadowShow, setIsShadowShow] = useState(false);
-	const buttonShadowClassNames = useClassNames(`${classNamePrefix}-shadow`);
+	const buttonShadowClassNames = useClassNames(
+		cls(`${classNamePrefix}-shadow`, {
+			circle: shape === "circle",
+		}),
+	);
 	const buttonWrapperClassNames = useClassNames(`${classNamePrefix}-wrapper`);
 	useEffect(() => {
 		function toggleShadow() {

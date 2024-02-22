@@ -19,7 +19,7 @@ export const useDrag = (props: useDragProps) => {
 	const lastMousePosition = useRef<Position>();
 	function mouseDownHandler(e: any) {
 		const event = e as React.MouseEvent;
-		if (event.target === dragHandle.current) {
+		if (dragHandle.current?.contains(event.target as Node)) {
 			setIsDragging(true);
 			lastMousePosition.current = dragStartMousePosition.current = {
 				x: event.clientX,

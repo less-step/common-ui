@@ -114,6 +114,9 @@
 			background-color: lighten($primary, 25%);
 			z-index: -10;
 			border-radius: $btn-border-radius;
+			&.circle {
+				display: none;
+			}
 		}
 	}
 }

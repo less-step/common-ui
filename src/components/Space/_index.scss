@@ -1,6 +1,7 @@
 .#{$app-name} {
 	&-space {
 		display: inline-flex;
+		align-items: center;
 		gap: $padding-base;
 		&-sm {
 			gap: $padding-sm;

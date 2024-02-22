@@ -13,7 +13,7 @@
 		background-color: $white;
 		&:hover {
 			transform: scale(1.1) translateY(10px);
-			box-shadow: 0 0 5px 1px lighten($primary, 30%);
+			box-shadow: 0 0 5px 1px lighten($primary, 35%);
 		}
 	}
 	&-modal-container {
@@ -22,7 +22,9 @@
 		position: absolute;
 		user-select: none;
 		backdrop-filter: blur(10px);
-		border: 2px solid $border-color;
+		box-shadow: $box-shadow-default;
+		border-radius: $border-radius-lg;
+		overflow: hidden;
 	}
 	&-modal {
 		width: 100%;
@@ -36,11 +38,52 @@
 			background-color: transparent;
 		}
 		.header {
-			background-color: $border-color;
 			cursor: move;
 			padding: $padding-base;
-			.header-title {
-				opacity: 1;
+			border-bottom: 1px solid $border-color;
+			.title {
+				font-weight: $font-weight-bolder;
+			}
+			.options {
+				position: absolute;
+				right: $padding-base;
+				top: $padding-base;
+				.option-item {
+					border-radius: 50%;
+					width: 1.25em;
+					height: 1.25em;
+					line-height: 1.25em;
+					cursor: pointer;
+					text-align: center;
+					transition: all 0.5s;
+					&.close {
+						background-color: $danger;
+						svg {
+							color: $danger !important;
+						}
+						&:hover {
+							background-color: transparent;
+						}
+					}
+					&.minus {
+						background-color: $yellow;
+						svg {
+							color: $yellow !important;
+						}
+						&:hover {
+							background-color: transparent;
+						}
+					}
+					&.primary {
+						background-color: $primary;
+						svg {
+							color: $primary !important;
+						}
+						&:hover {
+							background-color: transparent;
+						}
+					}
+				}
 			}
 		}
 		.content {

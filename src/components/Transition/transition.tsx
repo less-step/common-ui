@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { CSSTransition } from "react-transition-group";
-type TransitionType = "zoom-in-top" | "zoom-in-bottom" | "zoom-in-left" | "zoom-in-right" | "scale-and-disappear";
+type TransitionType = "zoom-in-top" | "zoom-in-bottom" | "zoom-in-left" | "zoom-in-right" | "scale-and-disappear" | "flip";
 export interface TransitionProps {
 	visible: boolean;
 	children: ReactNode;
