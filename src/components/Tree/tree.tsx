@@ -1,4 +1,4 @@
-import React, { Key, useContext, useMemo, useRef } from "react";
+import React, { Key, ReactNode, useContext, useMemo, useRef } from "react";
 import Icon from "../Icon";
 import { useOuter } from "../../hooks/useOuter";
 import cls from "classnames";
@@ -28,6 +28,7 @@ export type TreeProps = {
 	fieldNames?: FieldNames;
 	multiple?: boolean;
 	columns?: Column[];
+	titleRender: ((node: TreeNodeType) => ReactNode | null) | null | undefined;
 };
 
 interface TreeNodeEntity extends TreeNodeType {
@@ -41,7 +42,14 @@ interface TreeNodeEntity extends TreeNodeType {
 	nativeData: TreeNodeType;
 }
 
-function flattenTree(treeData: TreeNodeType[], expandedKeys: Key[], selectedKeys: Key[], treeNodeEntityMap: Map<Key, TreeNodeEntity>, fieldNames: FieldNames) {
+function flattenTree(
+	treeData: TreeNodeType[],
+	expandedKeys: Key[],
+	selectedKeys: Key[],
+	treeNodeEntityMap: Map<Key, TreeNodeEntity>,
+	fieldNames: FieldNames,
+	titleRender: ((node: TreeNodeType) => ReactNode | null) | null | undefined,
+) {
 	treeNodeEntityMap?.clear();
 	const flattened: TreeNodeEntity[] = [];
 	function helper(node: TreeNodeType, parentNode: TreeNodeEntity | null, level: number, path: number) {
@@ -52,7 +60,7 @@ function flattenTree(treeData: TreeNodeType[], expandedKeys: Key[], selectedKeys
 			expanded: expandedKeys.includes(node.key),
 			selected: selectedKeys.includes(node.key),
 			key: node[fieldNames.key],
-			title: node[fieldNames.title],
+			title: titleRender ? titleRender(node) : node[fieldNames.title],
 			children: node[fieldNames.children],
 			nativeData: node,
 		};
@@ -96,7 +104,7 @@ const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 	const [columns, setColumns] = useOuter<Column[]>(outerColumns);
 	const treeNodeEntityMap = useRef<Map<Key, TreeNodeEntity>>(new Map());
 	const nodeEntityList = useMemo(() => {
-		return flattenTree(treeData, expandedKeys, selectedKeys, treeNodeEntityMap.current, fieldNames);
+		return flattenTree(treeData, expandedKeys, selectedKeys, treeNodeEntityMap.current, fieldNames, props.titleRender);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [treeData, expandedKeys, selectedKeys]);
 	function updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any) {

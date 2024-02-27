@@ -35,6 +35,46 @@ function DndListItem(props: DndListItemProps) {
 				if (!ref.current) return;
 				const dragIndex = item.index;
 				const hoverIndex = index;
+				console.log(dragIndex, hoverIndex);
+				// Do nothing if target and source are same
+				if (dragIndex === hoverIndex) return;
+				const hoverRect = ref.current.getBoundingClientRect();
+				// Get vertical middle
+				const hoverMiddleY = (hoverRect.bottom - hoverRect.top) / 2;
+				const hoverMiddleX = (hoverRect.right - hoverRect.left) / 2;
+				// Determine mouse position
+				const clientOffset = monitor.getClientOffset();
+				if (!clientOffset) {
+					return;
+				}
+				// Get pixels to the top
+				const hoverClientY = clientOffset.y - hoverRect.top;
+				const hoverClientX = clientOffset.x - hoverRect.left;
+				// Only move when the mouse has crossed half of the items height
+				if (direction === "column") {
+					if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+						return;
+					}
+					if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+						return;
+					}
+				} else {
+					console.log(hoverClientX, hoverMiddleX);
+					if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+						return;
+					}
+					if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+						return;
+					}
+				}
+				handleDrag(dragIndex, hoverIndex);
+				item.index = hoverIndex;
+			},
+			drop(item: any, monitor) {
+				if (!ref.current) return;
+				const dragIndex = item.index;
+				const hoverIndex = index;
+				console.log(dragIndex, hoverIndex);
 				// Do nothing if target and source are same
 				if (dragIndex === hoverIndex) return;
 
@@ -59,6 +99,7 @@ function DndListItem(props: DndListItemProps) {
 						return;
 					}
 				} else {
+					console.log(hoverClientX, hoverMiddleX);
 					if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
 						return;
 					}
@@ -73,11 +114,9 @@ function DndListItem(props: DndListItemProps) {
 		[state],
 	);
 
-	const opacity = isDragging ? 0 : 1;
-
 	drag(drop(ref));
 	return (
-		<div className={cls("dnd-list-item", className)} ref={ref} style={{ opacity }} data-handler-id={handlerId}>
+		<div className={cls("dnd-list-item", className)} ref={ref} data-handler-id={handlerId}>
 			{children}
 		</div>
 	);

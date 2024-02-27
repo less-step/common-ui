@@ -5,7 +5,6 @@ export interface DraggableProps {
 	children: React.ReactNode;
 	type: string;
 	item: any;
-
 	style?: CSSProperties;
 	hideWhenDrag?: boolean;
 	state: any;
@@ -27,10 +26,11 @@ function Draggable(props: DraggableProps) {
 	const classNames = cls("dnd-draggable", {
 		isDragging,
 	});
+
 	return (
-		<span className={classNames} style={style} ref={drag} hidden={isDragging && hideWhenDrag}>
+		<div className={classNames} style={style} ref={drag} hidden={isDragging && hideWhenDrag}>
 			{children}
-		</span>
+		</div>
 	);
 }
 

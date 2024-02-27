@@ -16,11 +16,11 @@ function DndList(props: DndListProps) {
 	const handleDrag = (dragIndex: number, hoverIndex: number) => {
 		setList((prev) => {
 			const copy = [...prev];
-			const card = copy[dragIndex];
+			const listItem = copy[dragIndex];
 			// remove origin
 			copy.splice(dragIndex, 1);
 			// add to target
-			copy.splice(hoverIndex, 0, card);
+			copy.splice(hoverIndex, 0, listItem);
 			return copy;
 		});
 	};
@@ -29,7 +29,7 @@ function DndList(props: DndListProps) {
 		<DndProvider backend={HTML5Backend}>
 			{list.map((item, index) => (
 				<DndListItem key={item.key} index={index} item={item} handleDrag={handleDrag} state={list} direction={direction} className={className}>
-					{titleRender?.(item)}
+					{titleRender?.(item) || item.title}
 				</DndListItem>
 			))}
 		</DndProvider>

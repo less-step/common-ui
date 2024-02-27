@@ -13,7 +13,7 @@ export const DefaultTree: StoryObj<typeof meta> = {
 		treeData: [
 			{
 				key: "1",
-				title: "part1",
+				title: "part1少时诵诗书少时诵诗书是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒事实上事实上少时诵诗书是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒是撒",
 				name: "jss",
 				className: "1",
 				sex: "男",
@@ -52,6 +52,7 @@ export const DefaultTree: StoryObj<typeof meta> = {
 			},
 		],
 		multiple: true,
+		titleRender: null,
 	},
 };
 DefaultTree.storyName = "默认树";
