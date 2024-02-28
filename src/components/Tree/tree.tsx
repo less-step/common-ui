@@ -23,7 +23,7 @@ type FieldNames = {
 };
 type onExpandHandler = (keys: Key[], info: { node: TreeNodeEntity; expanded: boolean; nativeEvent: React.MouseEvent }) => void;
 type onSelectHandler = (keys: Key[], info: { node: TreeNodeEntity; selected: boolean; nativeEvent: React.MouseEvent }) => void;
-type onContextMenuHandler = (key: Key, node: TreeNodeType) => void;
+type onContextMenuHandler = (key: Key, node: TreeNodeType, nativeEvent: React.MouseEvent) => void;
 export type TreeProps = {
 	treeData: TreeNodeType[];
 	expandedKeys?: Key[];
@@ -195,7 +195,7 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 				onContextMenu={(e) => {
 					e.stopPropagation();
 					e.preventDefault();
-					onContextMenu?.(nodeEntity.key, nodeEntity.nativeData);
+					onContextMenu?.(nodeEntity.key, nodeEntity.nativeData, e);
 				}}
 			>
 				<div className="main">
