@@ -53,6 +53,12 @@ export const DefaultTree: StoryObj<typeof meta> = {
 		],
 		multiple: true,
 		titleRender: null,
+		onSelect(keys, info) {
+			alert(keys[0]);
+		},
+		onExpand(keys) {
+			alert(keys[0]);
+		},
 	},
 };
 DefaultTree.storyName = "默认树";

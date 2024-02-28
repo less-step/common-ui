@@ -1,4 +1,4 @@
-import React, { Key, ReactNode, useContext, useMemo, useRef } from "react";
+import React, { Key, MouseEvent, ReactNode, useContext, useMemo, useRef } from "react";
 import Icon from "../Icon";
 import { useOuter } from "../../hooks/useOuter";
 import cls from "classnames";
@@ -21,6 +21,9 @@ type FieldNames = {
 	title: string;
 	children: string;
 };
+type onExpandHandler = (keys: Key[], info: { node: TreeNodeEntity; expanded: boolean; nativeEvent: React.MouseEvent }) => void;
+type onSelectHandler = (keys: Key[], info: { node: TreeNodeEntity; selected: boolean; nativeEvent: React.MouseEvent }) => void;
+type onContextMenuHandler = (key: Key, node: TreeNodeType) => void;
 export type TreeProps = {
 	treeData: TreeNodeType[];
 	expandedKeys?: Key[];
@@ -29,9 +32,12 @@ export type TreeProps = {
 	multiple?: boolean;
 	columns?: Column[];
 	titleRender: ((node: TreeNodeType) => ReactNode | null) | null | undefined;
+	onExpand?: onExpandHandler;
+	onSelect?: onSelectHandler;
+	onContextMenu?: onContextMenuHandler;
 };
 
-interface TreeNodeEntity extends TreeNodeType {
+export interface TreeNodeEntity extends TreeNodeType {
 	level: number;
 	parentNode: TreeNodeEntity | null;
 	path: number;
@@ -80,7 +86,7 @@ type Column = {
 	title: string;
 };
 type TreeContextType = {
-	updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any): void;
+	updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any): any;
 	columns: Column[];
 	setColumns(columns: Column[] | ((columns: Column[]) => Column[])): void;
 };
@@ -98,7 +104,7 @@ function isTableMode(columns: Record<string, any>[]) {
 }
 
 const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
-	const { treeData, expandedKeys: outerExpandedKeys, selectedKeys: outerSelectedKeys, fieldNames, multiple, columns: outerColumns } = props as Required<TreeProps>;
+	const { treeData, expandedKeys: outerExpandedKeys, selectedKeys: outerSelectedKeys, fieldNames, multiple, columns: outerColumns, onExpand, onSelect, onContextMenu } = props as Required<TreeProps>;
 	const [expandedKeys, setExpandedKeys] = useOuter<Key[]>(outerExpandedKeys);
 	const [selectedKeys, setSelectedKeys] = useOuter<Key[]>(outerSelectedKeys);
 	const [columns, setColumns] = useOuter<Column[]>(outerColumns);
@@ -107,28 +113,33 @@ const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 		return flattenTree(treeData, expandedKeys, selectedKeys, treeNodeEntityMap.current, fieldNames, props.titleRender);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [treeData, expandedKeys, selectedKeys]);
-	function updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any) {
+	function updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any): any {
 		switch (propertyName) {
 			case "selected":
 				if (nodeEntity.selected) {
-					setSelectedKeys((selectedKeys: Key[]) => selectedKeys.filter((key) => key !== nodeEntity.key));
+					const newSelectedKeys = selectedKeys.filter((key) => key !== nodeEntity.key);
+					setSelectedKeys(newSelectedKeys);
+					return newSelectedKeys;
 				} else {
-					setSelectedKeys((selectedKeys) => {
-						if (multiple) {
-							return [...selectedKeys, nodeEntity.key];
-						} else {
-							return [nodeEntity.key];
-						}
-					});
+					let newSelectedKeys;
+					if (multiple) {
+						newSelectedKeys = [...selectedKeys, nodeEntity.key];
+					} else {
+						newSelectedKeys = [nodeEntity.key];
+					}
+					setSelectedKeys(newSelectedKeys);
+					return selectedKeys;
 				}
-				break;
 			case "expanded":
 				if (nodeEntity.expanded) {
-					setExpandedKeys((expandedKeys) => expandedKeys.filter((key) => key !== nodeEntity.key));
+					const newExpandedKeys = expandedKeys.filter((key) => key !== nodeEntity.key);
+					setExpandedKeys(newExpandedKeys);
+					return newExpandedKeys;
 				} else {
-					setExpandedKeys((expandedKeys) => [...expandedKeys, nodeEntity.key]);
+					const newExpandedKeys = [...expandedKeys, nodeEntity.key];
+					setExpandedKeys(newExpandedKeys);
+					return newExpandedKeys;
 				}
-				break;
 			default:
 		}
 	}
@@ -146,7 +157,7 @@ const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 					)}
 				</li>
 				{nodeEntityList.map((nodeEntity) => {
-					return <TreeNode nodeEntity={nodeEntity} key={nodeEntity.key} />;
+					return <TreeNode nodeEntity={nodeEntity} key={nodeEntity.key} onExpand={onExpand} onSelect={onSelect} onContextMenu={onContextMenu} />;
 				})}
 			</ul>
 		</TreeContext.Provider>
@@ -156,10 +167,13 @@ const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 /* TreeNode */
 type TreeNodeProps = {
 	nodeEntity: TreeNodeEntity;
+	onExpand?: onExpandHandler;
+	onSelect?: onSelectHandler;
+	onContextMenu?: onContextMenuHandler;
 };
 type TreeNodeRef = {};
 const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
-	const { nodeEntity } = props;
+	const { nodeEntity, onExpand, onSelect, onContextMenu } = props;
 	const { updateEntityProperty, columns } = useContext(TreeContext);
 	return (
 		<Transition visible={nodeEntity.parentNode ? nodeEntity.parentNode.expanded : true} type={"zoom-in-top"} timeout={300}>
@@ -171,7 +185,17 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 				onClick={(e) => {
 					e.stopPropagation();
 					e.preventDefault();
-					updateEntityProperty(nodeEntity, "selected", !nodeEntity.selected);
+					const selectedKeys = updateEntityProperty(nodeEntity, "selected", !nodeEntity.selected) as Key[];
+					onSelect?.(selectedKeys, {
+						node: nodeEntity,
+						selected: !nodeEntity.selected,
+						nativeEvent: e as MouseEvent,
+					});
+				}}
+				onContextMenu={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+					onContextMenu?.(nodeEntity.key, nodeEntity.nativeData);
 				}}
 			>
 				<div className="main">
@@ -182,7 +206,12 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 						onClick={(e) => {
 							e.stopPropagation();
 							e.preventDefault();
-							updateEntityProperty(nodeEntity, "expanded", !nodeEntity.expanded);
+							const expandedKeys = updateEntityProperty(nodeEntity, "expanded", !nodeEntity.expanded) as Key[];
+							onExpand?.(expandedKeys, {
+								node: nodeEntity,
+								expanded: !nodeEntity.expanded,
+								nativeEvent: e as MouseEvent,
+							});
 						}}
 					/>
 					<div className="tree-title-container">{nodeEntity.title}</div>
