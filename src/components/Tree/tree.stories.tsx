@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import Tree from "./tree";
+import React from "react";
+import Form from "../Form";
 const meta = {
 	title: "树",
 	component: Tree,
@@ -7,6 +9,14 @@ const meta = {
 } satisfies Meta<typeof Tree>;
 
 export default meta;
+
+function TreeDefaultStory(props: any) {
+	return (
+		<Form>
+			<Tree {...props} />
+		</Form>
+	);
+}
 
 export const DefaultTree: StoryObj<typeof meta> = {
 	args: {
@@ -31,7 +41,7 @@ export const DefaultTree: StoryObj<typeof meta> = {
 			{
 				key: "2",
 				title: "part3",
-				name: "jss",
+				name: "jss111",
 				className: "1",
 				sex: "男",
 				children: [],
@@ -53,12 +63,9 @@ export const DefaultTree: StoryObj<typeof meta> = {
 		],
 		multiple: true,
 		titleRender: null,
-		onSelect(keys, info) {
-			alert(keys[0]);
-		},
-		onExpand(keys) {
-			alert(keys[0]);
-		},
+	},
+	render(args) {
+		return <TreeDefaultStory {...args} />;
 	},
 };
 DefaultTree.storyName = "默认树";

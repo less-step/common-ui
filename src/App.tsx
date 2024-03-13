@@ -1,10 +1,15 @@
 import { useEffect } from "react";
 import "./styles/index.scss";
-import { Modal, ModalFactory } from "./component";
+import { Button, Modal, ModalFactory } from "./component";
 function App() {
 	useEffect(() => {
 		const factory = new ModalFactory();
-		factory.appendModal("modal", <Modal open={true}>123</Modal>);
+		factory.appendModal(
+			"modal",
+			<Modal open={true} title="标题">
+				<Button>123</Button>
+			</Modal>,
+		);
 	}, []);
 
 	return null;

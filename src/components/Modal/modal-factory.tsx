@@ -48,7 +48,6 @@ export class ModalFactory implements ModalFactoryInterface {
 		modalRoot.style.width = "100vw";
 		modalRoot.style.height = "100vh";
 		modalRoot.style.position = "relative";
-		modalRoot.style.backgroundColor = "orange";
 		(this[defaultModalsRoot] as HTMLElement).appendChild(modalRoot);
 		const modal = React.cloneElement(modalInstance, { ref });
 		ReactDOM.render(modal, modalRoot, () => {

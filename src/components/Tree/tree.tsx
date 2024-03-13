@@ -1,4 +1,4 @@
-import React, { Key, MouseEvent, ReactNode, useContext, useMemo, useRef } from "react";
+import React, { Key, MouseEvent, ReactNode, useCallback, useContext, useMemo, useRef } from "react";
 import Icon from "../Icon";
 import { useOuter } from "../../hooks/useOuter";
 import cls from "classnames";
@@ -21,9 +21,10 @@ type FieldNames = {
 	title: string;
 	children: string;
 };
-type onExpandHandler = (keys: Key[], info: { node: TreeNodeEntity; expanded: boolean; nativeEvent: React.MouseEvent }) => void;
-type onSelectHandler = (keys: Key[], info: { node: TreeNodeEntity; selected: boolean; nativeEvent: React.MouseEvent }) => void;
+type onExpandHandler = (keys: Key[], info: { node: TreeNodeType; expanded: boolean; nativeEvent: React.MouseEvent }) => void;
+type onSelectHandler = (keys: Key[], info: { node: TreeNodeType; selected: boolean; nativeEvent: React.MouseEvent }) => void;
 type onContextMenuHandler = (key: Key, node: TreeNodeType, nativeEvent: React.MouseEvent) => void;
+
 export type TreeProps = {
 	treeData: TreeNodeType[];
 	expandedKeys?: Key[];
@@ -84,6 +85,7 @@ function flattenTree(
 type Column = {
 	key: string;
 	title: string;
+	render?: (value: any, record: TreeNodeEntity) => ReactNode;
 };
 type TreeContextType = {
 	updateEntityProperty(nodeEntity: TreeNodeEntity, propertyName: keyof TreeNodeEntity, propertyValue: any): any;
@@ -128,7 +130,7 @@ const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 						newSelectedKeys = [nodeEntity.key];
 					}
 					setSelectedKeys(newSelectedKeys);
-					return selectedKeys;
+					return newSelectedKeys;
 				}
 			case "expanded":
 				if (nodeEntity.expanded) {
@@ -175,8 +177,17 @@ type TreeNodeRef = {};
 const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 	const { nodeEntity, onExpand, onSelect, onContextMenu } = props;
 	const { updateEntityProperty, columns } = useContext(TreeContext);
+	const isVisible = useCallback((nodeEntity: TreeNodeEntity) => {
+		let visible = true;
+		let currentEntity = nodeEntity;
+		while (currentEntity.parentNode) {
+			visible = visible && currentEntity.parentNode.expanded;
+			currentEntity = currentEntity.parentNode;
+		}
+		return visible;
+	}, []);
 	return (
-		<Transition visible={nodeEntity.parentNode ? nodeEntity.parentNode.expanded : true} type={"zoom-in-top"} timeout={300}>
+		<Transition visible={isVisible(nodeEntity)} type={"zoom-in-top"} timeout={300}>
 			<li
 				key={nodeEntity.key}
 				className={cls("tree-node", "body", {
@@ -187,7 +198,7 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 					e.preventDefault();
 					const selectedKeys = updateEntityProperty(nodeEntity, "selected", !nodeEntity.selected) as Key[];
 					onSelect?.(selectedKeys, {
-						node: nodeEntity,
+						node: nodeEntity.nativeData,
 						selected: !nodeEntity.selected,
 						nativeEvent: e as MouseEvent,
 					});
@@ -208,7 +219,7 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 							e.preventDefault();
 							const expandedKeys = updateEntityProperty(nodeEntity, "expanded", !nodeEntity.expanded) as Key[];
 							onExpand?.(expandedKeys, {
-								node: nodeEntity,
+								node: nodeEntity.nativeData,
 								expanded: !nodeEntity.expanded,
 								nativeEvent: e as MouseEvent,
 							});
@@ -220,6 +231,13 @@ const TreeNode = React.forwardRef<TreeNodeRef, TreeNodeProps>((props, ref) => {
 					<div className="detail">
 						<div className="item-group">
 							{columns.map((column) => {
+								if (column.render) {
+									return (
+										<div className="item" key={column.key}>
+											{column.render(nodeEntity.nativeData[column.key], nodeEntity)}
+										</div>
+									);
+								}
 								return (
 									<div className="item" key={column.key}>
 										{nodeEntity.nativeData[column.key]}
